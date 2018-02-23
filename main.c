@@ -1,10 +1,3 @@
-/***********************************************/
-/* to do list: -gerer l'overflow et faire repeter la trame*/
-/*  -ajouter un champs longueur*/
-/* -ajouter un champs nb d'element*/
-/*
-/**********************************************/
-
 
 #include <windows.h>            //utilisation de l'API32 (Application Program Interface) de Windows
 #include <stdio.h>
@@ -172,8 +165,8 @@ void ledspi(){
 
 }
 //concatenationdata(a,b,c,d, &data);
-void concatenationdata(int alpha, int beta, int charlie, int delta, int *dataint){// fonction exemple aquisition de 4 donnée a transmettre // max 7 slot//doit prendre exactement le nombre d'arg de data
-//assume que il n'y a que 4 donnée a transmettre ne meme temps par tick
+void concatenationdata(int alpha, int beta, int charlie, int delta, int *dataint){// fonction exemple aquisition de 4 donnÃ©e a transmettre // max 7 slot//doit prendre exactement le nombre d'arg de data
+//assume que il n'y a que 4 donnÃ©e a transmettre ne meme temps par tick
     int i;
     //NOMBREDEVALEUR
 
@@ -181,19 +174,19 @@ void concatenationdata(int alpha, int beta, int charlie, int delta, int *dataint
 
 
 
-    dataint[4];//return du tableau de donné conca
+    dataint[4];//return du tableau de donnÃ© conca
 }
 //forge(carac,nb,&data,&trame);
-void forge(char type, int *dataint, char *trametx){//forge à utilisé plus tard avec concatenationdata
+void forge(char type, int *dataint, char *trametx){//forge Ã  utilisÃ© plus tard avec concatenationdata
     int i=0;
     int cpt=0;
     int compteurtrame=1;
     char s[TAILLEVAL];
-    int flag_overflow=0;//donnée utile a transmettre plus grand que la taille max autorisé par une seule trame
+    int flag_overflow=0;//donnÃ©e utile a transmettre plus grand que la taille max autorisÃ© par une seule trame
 
     trametx[0]=type;//1er caractere
 
-    //data<=TAILLETRAME-2//taille max des données utile
+    //data<=TAILLETRAME-2//taille max des donnÃ©es utile
 
     //conversion int en char*
     for(i=0;i<NOMBREDEVALEUR;i++){
@@ -230,7 +223,7 @@ void forge(char type, int *dataint, char *trametx){//forge à utilisé plus tard a
     receive();
 return flag_overflow;
 }
-void forgemanuel(){//forgage d'une trame à envoyer 0:type;1->14data;15 fin trame '\0'
+void forgemanuel(){//forgage d'une trame Ã  envoyer 0:type;1->14data;15 fin trame '\0'
     char c;
     int i;
 
@@ -395,7 +388,7 @@ void inicom(){
 	}
     printf("SetCommState OK\n");
 }
-void itoad(long unsigned int value, char *result, int base){//existe déja dans stdlib.h ???
+void itoad(long unsigned int value, char *result, int base){//existe dÃ©ja dans stdlib.h ???
       // check that the base if valid
       if (base < 2 || base > 36){
             *result = '\0';
