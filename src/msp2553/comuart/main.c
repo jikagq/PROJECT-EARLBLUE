@@ -76,7 +76,7 @@ void interpreteur(){
             break;
             }
       case 't':{
-            parser();
+            anvil();
             raztrame();
             break;
             }
@@ -88,16 +88,93 @@ void interpreteur(){
       }
 }
 
-void parser(){
-    int i;
-    for(i=1;i<TAILLETRAME-1;i++){//à completer quand y aura besoin
-        if(rxtrame[i]==';'){
-            //val = atoi(str);convertir les char* en int
-        }
-    }
-    ack();
+void anvil(){//gestion des trames forge
+    char action;
+
+    action=rxtrame[2];
+    switch(action){
+          case 'l':{
+                ledspi();
+                raztrame();
+                break;
+                }
+          case 'a':{
+                raztrame();
+                break;
+                }
+          case 'r':{
+                raztrame();
+                break;
+                }
+          case 'd':{
+                raztrame();
+                break;
+                }
+          case 'g':{
+                raztrame();
+                break;
+                }
+          case 'b':{
+                raztrame();
+                break;
+                }
+          case 'm':{
+                raztrame();
+                break;
+                }
+          default :{
+                raztrame();
+                break;
+                }
+          }
     raztrame();
 }
+
+ledspi(){
+    int etat = 0;
+    int frequence = 1000;
+
+    etat = slot();
+    frequence = slot();
+}
+
+int slot(int slotnumber){
+    int i;
+    int var=0;
+    int cptseparateur=0;
+    int pos=0;//0:gauche 1:droite
+    int debut;
+    int fin;
+
+    for(i=3;i<TAILLETRAME-1;i++){//fin de l'entete forge à 3
+
+        if(rxtrame[i]==';'){//;gauche
+            if(pos==0){
+               pos=1;
+               cptseparateur++;
+            }else{//;droit
+               pos=0;
+               if()
+            }
+
+
+
+
+
+
+
+            //val = atoi(str);convertir les char* en int
+
+
+
+
+        }
+    }
+   return var;
+}
+
+
+
 
 void led1(){
    if(rxtrame[1]=='1'){
@@ -262,7 +339,11 @@ __interrupt void USCI0RX_ISR(void)
         rxtrame[rxbuffer]=c;
         //TXdata('c');
         //TXdata(rxtrame[0]);//renvoie le 1er carac pour debug
-        interpreteur();
+        if(rxtrame[0]=='f'){//trame forge -> parser
+            anvil();
+        }else{
+            interpreteur();
+        }
     }else{//sinon on ajoute le caractaire à la chaine
        rxtrame[rxbuffer]=c;
        rxbuffer++;
