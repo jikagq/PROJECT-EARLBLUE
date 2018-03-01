@@ -8,17 +8,27 @@
 #include "util.h"
 
 void forgemanuel(void){//forgage d'une trame à envoyer 0:type;1->14data;15 fin trame '\0'
-    char c;
+    char c='a';
     int i;
+    int fin=0;
+    trametx[0]='f';//indic que c'est une trame forge
 
-    trametx[0]='t';
-
-    printf("entrez des caractere %d delimier par ; si besoin\n",TAILLETRAME );
+    printf("entrez des caractere %d delimier par ; si besoin * termine la trame\n",TAILLETRAME );
     for(i=1;i<TAILLETRAME-1;i++){//slot 0 = type de trame +carc de fin '\0'
-        printf("> ");
-        scanf("%c", &c);
-        trametx[i]=c;
-        while ((c = getchar()) != '\n' && c != EOF);
+        if(fin==1){//fin demandé par l'utilisateur
+            trametx[i]='\0';
+        }else{
+            printf("> ");
+            scanf("%c", &c);
+            if(c=='*'){
+                fin=1;
+            }else{
+                trametx[i]=c;
+                while ((c = getchar()) != '\n' && c != EOF);
+            }
+
+        }
+
     }
     trametx[TAILLETRAME-1]='\0';
 
@@ -26,11 +36,11 @@ void forgemanuel(void){//forgage d'une trame à envoyer 0:type;1->14data;15 fin t
 ////////////////////////////////mettre le msp
     printf("-> ");
    for(i=0;i<TAILLETRAME;i++){//relecture afficage
-        transmit(trametx[i]);
+        //transmit(trametx[i]);
         printf("%c",trametx[i]);
     }
     raztrame();//trame envoyer donc raz
-    receive();
+    //receive();
 }
 void frequence(void){
     int tpsh=1000;

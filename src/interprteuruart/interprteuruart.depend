@@ -8,7 +8,10 @@
 	"interpreteur_uart_pc.h"
 	"util.h"
 
-1519500727 source:d:\users\theo\documents\codebloks\interprteuruart\interpreteur_uart_micro.c
+1519500878 source:d:\users\theo\documents\codebloks\interprteuruart\interpreteur_uart_micro.c
+	<windows.h>
+	<stdio.h>
+	<stdlib.h>
 	"main.h"
 	"interpreteur_uart_micro.h"
 	"interpreteur_uart_pc.h"
