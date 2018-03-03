@@ -1,12 +1,17 @@
 //------------------------------------------------------------------------------
-// uart_simple.c
+// msp2553 uart
 //
-// test de l'UART : ?cho des caract?res re?us
 //
-//                              benoit.decoux@esigelec.fr - 28/01/2013
+//
+//
 //------------------------------------------------------------------------------
 #include <msp430g2553.h>
 #include <msp430.h>
+
+#include "main.h"
+#include "util.h"
+#include "uart.h"
+#include "spi2553.h"
 
 #define TAILLETRAME 16 //taille de la trame
 #define TAILLEVAL 6 //val max+1 nombre de slot d'un entier
@@ -22,43 +27,6 @@ int compteurtrameinutile=0;
 
 //int val=0;
 //char str[] = "1000";
-
-
-void InitUART(void)
-{
-    P1SEL |= (BIT1 | BIT2);                     // P1.1 = RXD, P1.2=TXD
-        P1SEL2 |= (BIT1 | BIT2);                    // P1.1 = RXD, P1.2=TXD
-        UCA0CTL1 = UCSWRST;                         // SOFTWARE RESET
-        UCA0CTL1 |= UCSSEL_3;                       // SMCLK (2 - 3)
-
-        UCA0CTL0 &= ~(UCPEN | UCMSB | UCDORM);
-        UCA0CTL0 &= ~(UC7BIT | UCSPB | UCMODE_3 | UCSYNC); // dta:8 stop:1 usci_mode3uartmode
-        UCA0CTL1 &= ~UCSWRST;                   // **Initialize USCI state machine**
-
-        UCA0BR0 = 104;                              // 1MHz, OSC16, 9600 (8Mhz : 52) : 8/115k
-        UCA0BR1 = 0;                                // 1MHz, OSC16, 9600
-        UCA0MCTL = 10;
-
-        /* Enable USCI_A0 RX interrupt */
-        IE2 |= UCA0RXIE;
-}
-
-void TXdata( unsigned char c )
-{
-    P1OUT ^= BIT6;//debug
-    while (!(IFG2&UCA0TXIFG));  // USCI_A0 TX buffer ready?
-    UCA0TXBUF = c;              // TX -> RXed character
-}
-
-void delay (unsigned int ms)
-{
-    volatile unsigned int i, z;
-    i=100;
-    while (i--) {
-        z=ms;
-        while(z--);
-    }
-}
 
 void interpreteur(){
    char rxcar;
@@ -134,8 +102,8 @@ ledspi(){
     int etat = 0;
     int frequence = 1000;
 
-    etat = slot();
-    frequence = slot();
+    etat = slot(1);
+    frequence = slot(2);
 }
 
 int slot(int slotnumber){
@@ -145,16 +113,21 @@ int slot(int slotnumber){
     int pos=0;//0:gauche 1:droite
     int debut;
     int fin;
+    char subsstr[6];
 
     for(i=3;i<TAILLETRAME-1;i++){//fin de l'entete forge à 3
-
         if(rxtrame[i]==';'){//;gauche
             if(pos==0){
                pos=1;
+               debut=i;
                cptseparateur++;
             }else{//;droit
                pos=0;
-               if()
+               fin=i;
+               if(cptseparateur == slotnumber){
+                //coupe
+                  // var = atoi(str);//convertir les char* en int
+               }//sinon rien
             }
 
 
@@ -163,7 +136,7 @@ int slot(int slotnumber){
 
 
 
-            //val = atoi(str);convertir les char* en int
+
 
 
 
@@ -173,6 +146,9 @@ int slot(int slotnumber){
    return var;
 }
 
+void substringsemicolon(int debut,int fin, char *dest){
+
+}
 
 
 
@@ -192,29 +168,7 @@ void led1(){
 
 }
 
-void pong(){
-    unsigned int i;
-    char pong[] = "pong";
-    for(i=0;i<5;i++){
-        TXdata(pong[i]);
-    }
 
-}
-
-void ack(){
-    unsigned int i;
-    char ack[] = "ack";
-    for(i=0;i<4;i++){
-        TXdata(ack[i]);
-    }
-}
-void nak(){
-    unsigned int i;
-    char nak[] = "nak";
-    for(i=0;i<4;i++){
-        TXdata(nak[i]);
-    }
-}
 
 void raztrame(){
     for(rxbuffer=0;rxbuffer<16;rxbuffer++){//ini de la trame rx
@@ -223,43 +177,8 @@ void raztrame(){
     rxbuffer=0;
 }
 
-void itoad(long unsigned int value, char *result, int base){//conversion entier en char *
-      // check that the base if valid
-      if (base < 2 || base > 36){
-          *result = '\0';
-      }
 
-      char *ptr = result, *ptr1 = result, tmp_char;
-      int tmp_value;
 
-      do{
-        tmp_value = value;
-        value /= base;
-        *ptr++ = "zyxwvutsrqponmlkjihgfedcba9876543210123456789abcdefghijklmnopqrstuvwxyz" [35 + (tmp_value - value * base)];
-      }while(value);
-
-      // Apply negative sign
-      if (tmp_value < 0) *ptr++ = '-';
-      *ptr-- = '\0';
-      while(ptr1 < ptr) {
-        tmp_char = *ptr;
-        *ptr--= *ptr1;
-        *ptr1++ = tmp_char;
-      }
-
-}
-void debug(char *texte, int valeur){
-    int i;
-    char intenchar[5];
-
-    while(texte[i] != '\0'){
-        TXdata(texte[i]);
-    }
-    TXdata(' ');
-    itoad(valeur, &intenchar, 10);
-
-    TXdata('\0');//fin
-}
 
 
 void main(void)
