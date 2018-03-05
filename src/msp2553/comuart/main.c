@@ -113,8 +113,8 @@ int slot(int slotnumber){
     int var=0;
     int cptseparateur=0;
     int pos=0;//0:gauche 1:droite
-    int debut;
-    int fin;
+    int debut=0;
+    int fin=0;
 
     for(i=3;i<TAILLETRAME-1;i++){//fin de l'entete forge à 3
         if((rxtrame[i]==';') || (rxtrame[i]=='\0')){//;gauche
@@ -129,7 +129,11 @@ int slot(int slotnumber){
                 //coupe
                    var=substringsemicolon(debut, fin);
                    i=TAILLETRAME-1;//quite la boucle dès que la veleur est extraites pour pas se taper toutes la trame
-               }//sinon rien
+               }else{
+                   pos=1;
+                   debut=i;
+                   cptseparateur++;
+               }
             }
         }
     }
