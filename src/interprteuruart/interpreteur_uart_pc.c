@@ -36,7 +36,7 @@ void forgemanuel(void){//forgage d'une trame à envoyer 0:type;1->14data;15 fin t
 ////////////////////////////////mettre le msp
     printf("-> ");
    for(i=0;i<TAILLETRAME;i++){//relecture afficage
-        //transmit(trametx[i]);
+        transmit(trametx[i]);
         printf("%c",trametx[i]);
     }
     raztrame();//trame envoyer donc raz

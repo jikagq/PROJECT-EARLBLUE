@@ -100,10 +100,12 @@ void anvil(){//gestion des trames forge
 
 ledspi(){
     int etat = 0;
-    int frequence = 1000;
+    int frequence = 500;
 
     etat = slot(1);
     frequence = slot(2);
+
+    //send spi l+etat+freq
 }
 
 int slot(int slotnumber){
@@ -113,10 +115,9 @@ int slot(int slotnumber){
     int pos=0;//0:gauche 1:droite
     int debut;
     int fin;
-    char subsstr[6];
 
     for(i=3;i<TAILLETRAME-1;i++){//fin de l'entete forge à 3
-        if(rxtrame[i]==';'){//;gauche
+        if((rxtrame[i]==';') || (rxtrame[i]=='\0')){//;gauche
             if(pos==0){
                pos=1;
                debut=i;
@@ -126,28 +127,30 @@ int slot(int slotnumber){
                fin=i;
                if(cptseparateur == slotnumber){
                 //coupe
-                  // var = atoi(str);//convertir les char* en int
+                   var=substringsemicolon(debut, fin);
+                   i=TAILLETRAME-1;//quite la boucle dès que la veleur est extraites pour pas se taper toutes la trame
                }//sinon rien
             }
-
-
-
-
-
-
-
-
-
-
-
-
         }
     }
    return var;
 }
 
-void substringsemicolon(int debut,int fin, char *dest){
+int substringsemicolon(int debut,int fin){
+    char subsstr[6];
+    int a=0;
+    int b=0;
+    int var=-1;
 
+
+    b=debut;
+    while(b<fin){
+        subsstr[a]=rxtrame[b+1];
+        b++;
+        a++;
+    }
+    var = atoi(subsstr);
+    return var;
 }
 
 
@@ -259,6 +262,7 @@ __interrupt void USCI0RX_ISR(void)
         //TXdata('c');
         //TXdata(rxtrame[0]);//renvoie le 1er carac pour debug
         if(rxtrame[0]=='f'){//trame forge -> parser
+            //TXdata('c');
             anvil();
         }else{
             interpreteur();
