@@ -98,12 +98,26 @@ void anvil(){//gestion des trames forge
     raztrame();
 }
 
-ledspi(){
+
+ledspi()
+{
+	int i;
     int etat = 0;
     int frequence = 500;
+    char trame_SPI[TAILLETRAME];
 
+    trame_SPI [0]='l';
     etat = slot(1);
     frequence = slot(2);
+    if (etat == 1)
+    {
+    	trame_SPI [1]='1';
+    }
+    else
+    {
+    	trame_SPI [1]='0';
+    }
+    for (i=; i<TAILLETRAME-1)
 
     //send spi l+etat+freq
 }
@@ -277,6 +291,3 @@ __interrupt void USCI0RX_ISR(void)
     }
 
 }
-
-
-
