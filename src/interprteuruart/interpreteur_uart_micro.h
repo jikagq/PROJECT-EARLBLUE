@@ -3,4 +3,4 @@
 #include <stdlib.h>
 
 void concatenationdata(int alpha, int beta, int charlie, int delta, int *dataint);
-void forge(char type, int *dataint, char *trametx);
+void forge(int nbvaleur, char type, int *dataint, char *trametx);

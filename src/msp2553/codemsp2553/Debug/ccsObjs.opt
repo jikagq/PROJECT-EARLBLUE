@@ -1,0 +1,1 @@
+"./main.obj" "./spi2553.obj" "./uart.obj" "./util.obj" "../lnk_msp430g2553.cmd" -llibc.a 

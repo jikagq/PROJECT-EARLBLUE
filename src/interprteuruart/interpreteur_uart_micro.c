@@ -18,20 +18,23 @@ void concatenationdata(int alpha, int beta, int charlie, int delta, int *dataint
 
     dataint[4];//return du tableau de donné conca
 }
-void forge(char type, int *dataint, char *trametx){//forge à utilisé plus tard avec concatenationdata
+void forge(int nbvaleur,char type, int *dataint, char *trametx){//forge à utilisé plus tard avec concatenationdata
     int i=0;
     int cpt=0;
-    int compteurtrame=1;
+    int compteurtrame=4;
     char s[TAILLEVAL];
     int flag_overflow=0;//donnée utile a transmettre plus grand que la taille max autorisé par une seule trame
 
-    trametx[0]=type;//1er caractere
-
+    trametx[0]='f';//1er caractere
+    trametx[1]='2';
+    trametx[2]=type;
+    trametx[3]=';';
     //data<=TAILLETRAME-2//taille max des données utile
 
     //conversion int en char*
-    for(i=0;i<NOMBREDEVALEUR;i++){
-        sprintf(s, "%d", dataint[i]); // Conversion de l'entier
+    for(i=0;i<nbvaleur;i++){
+        //sprintf(s, "%d", dataint[i]); // Conversion de l'entier
+        itoad(dataint[i], &s, 10);
         while(s[cpt] != '\0'){
             printf("%c",s[cpt]);
             trametx[compteurtrame]=s[cpt];
@@ -40,7 +43,7 @@ void forge(char type, int *dataint, char *trametx){//forge à utilisé plus tard a
         }
         cpt=0;
         printf("\n");
-        if(i<NOMBREDEVALEUR-1){//bloquer le dernier ';'
+        if(i<nbvaleur-1){//bloquer le dernier ';'
             trametx[compteurtrame]=';';
             compteurtrame++;
         }
@@ -54,13 +57,13 @@ void forge(char type, int *dataint, char *trametx){//forge à utilisé plus tard a
         printf("-> ");
         for(i=0;i<TAILLETRAME;i++){//relecture afficage
             printf("%c",trametx[i]);
-            transmit(trametx[i]);
+            //transmit(trametx[i]);
             if(trametx[i]=='\0'){
                printf("ok");
             }
         }
     }
     raztrame();
-    receive();
+    //receive();
 return flag_overflow;
 }

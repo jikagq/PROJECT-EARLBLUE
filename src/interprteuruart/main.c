@@ -34,8 +34,8 @@ printf("*==================================================*\n");
 printf("*                 interpreteur UART                *\n");
 printf("*==================================================*\n");
 ////////////test////////////
-/**int datainttest[]={46,688,885,564};
-forge('a',&datainttest,&trametx);//obliger d'avoir le nombre de valeur exact**/
+//int datainttest[]={1,10,00,45};
+//forge(4,'l',&datainttest,&trametx);//obliger d'avoir le nombre de valeur exact
 
 /**int val;
 char str[]="1000";

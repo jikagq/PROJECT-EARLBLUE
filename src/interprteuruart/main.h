@@ -1,6 +1,6 @@
 #define TAILLETRAME 16 //taille de la trame
 #define TAILLEVAL 6 //val max+1 nombre de slot d'un entier
-#define NOMBREDEVALEUR 4 //nombre de valueur a transmettre
+#define NOMBREDEVALEUR 2 //nombre de valueur a transmettre
 
 #include <windows.h>            //utilisation de l'API32 (Application Program Interface) de Windows
 #include <stdio.h>
