@@ -18,11 +18,11 @@
 extern volatile int unsigned indexrxbufferuart;
 extern volatile char rxtrameuart[TAILLETRAMEUART];
 
-extern void send_SPI (char* trame_SPI);
-extern int slotuart(int slotnumber);
-extern int substringsemicolonuart(int debut,int fin);
+
+//extern int slotuart(int slotnumber);
+//extern int substringsemicolonuart(int debut,int fin);
 extern void interpreteuruart(void);
-extern void anvil(void);
+extern void anviluart(void);
 extern void raztrameuart(void);
 extern void InitUART(void);
 extern void TXdata( unsigned char c );

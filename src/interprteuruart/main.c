@@ -34,9 +34,9 @@ printf("*==================================================*\n");
 printf("*                 interpreteur UART                *\n");
 printf("*==================================================*\n");
 ////////////test////////////
-int datainttest[]={1,10,500};
-forge(3,'l',&datainttest,&trametx);//obliger d'avoir le nombre de valeur exact
-sendtrameuart(&trametx);
+//int datainttest[]={1,1000};
+//forge(2,'l',&datainttest,&trametx);//obliger d'avoir le nombre de valeur exact
+//sendtrameuart(&trametx);
 
 printf("Taper 'h' pour l'aide\n");
 printf("->send to uc\n");

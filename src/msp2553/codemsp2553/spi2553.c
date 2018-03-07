@@ -18,7 +18,7 @@
 volatile char received_ch = 0;
 
 
-int forgespi(int nbvaleur,char type, int *dataint, char *trametx){//permet de creer une trame a envoyer en spi
+/**int forgespi(int nbvaleur,char type, int *dataint, char *trametx){//permet de creer une trame a envoyer en spi
     int i=0;
     int cpt=0;
     int compteurtrame=4;
@@ -57,7 +57,7 @@ int forgespi(int nbvaleur,char type, int *dataint, char *trametx){//permet de cr
     }
    //raztrame();
 return flag_overflow;
-}
+}**/
 
 void Init_SPI (void)
 {
@@ -96,6 +96,6 @@ void send_SPI (char* trame_SPI)
     while (!(IFG2 & UCB0RXIFG));
         received_ch = UCB0RXBUF;
     P1OUT |= BIT4;                            // reset slave cs high
-  }while (trame_SPI [i] =! '\0');             // Trame_SPI  n'est pas nul
+  }while (trame_SPI [i] =! '\0');             // Trame_SPI  n'est pas nul what ?
 }
 

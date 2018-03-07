@@ -30,6 +30,7 @@ void forgemanuel(char *trametx){//forgage d'une trame à envoyer 0:type;1->14data
         }
 
     }
+    while ((c = getchar()) != '\n' && c != EOF);
     printf("\n");
 ////////////////////////////////mettre le msp
     printf("-> ");

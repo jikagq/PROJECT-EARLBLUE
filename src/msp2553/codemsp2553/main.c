@@ -29,14 +29,19 @@ void ledspi()
     int frequence = 500;
     char trame_SPI[TAILLETRAMESPI];
     int dataint[NOMBREDEVALEURSPI];
+    //!!!utilisation des fonction generique dans util.c
+    //etat = slotuart(1);//recupération des variable en entier arrivant de l'uart
+    //frequence = slotuart(2);
 
-    etat = slotuart(1);//recupération des variable en entier arrivant de l'uart
-    frequence = slotuart(2);
-
+    etat = slot(1,&rxtrameuart);//recupération des variable en entier arrivant de l'uart
+    frequence = slot(2,&rxtrameuart);
+    raztrame(&rxtrameuart);//raz de la trame une fois les données extraites
+    //peut etre simplifier sans les variables
     dataint[0]=etat;//remplissage tableau de donnée à transmettre en spi
     dataint[1]=frequence;
 
-    forgespi(2,'l',&dataint,&trame_SPI);//forgage de la trame spi à transmettre
+    //forgespi(2,'l',&dataint,&trame_SPI);//forgage de la trame spi à transmettre
+    forge(2,'l',&dataint,&trame_SPI);//forgage de la trame spi à transmettre
     send_SPI(&trame_SPI);//envoi de la trame spi
 }
 
@@ -44,7 +49,7 @@ void ledspi()
 
 
 
-void led1(){
+void led1(void){
    if(rxtrameuart[1]=='1'){
        ack();
        onoffled1=1;
@@ -83,7 +88,7 @@ void main(void)
 
 
     InitUART();
-    Init_SPI();
+    //Init_SPI();//!attention bug avec le spi!
 
     __bis_SR_register(GIE); // interrupts enabled
 

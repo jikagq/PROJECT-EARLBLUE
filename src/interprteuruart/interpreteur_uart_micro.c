@@ -37,16 +37,16 @@ int forge(int nbvaleur,char type, int *dataint, char *trametx){//forge à utilisé
     }
     //printf(" compteur:%d \n ",compteurtrame);
     if(compteurtrame-2 >= TAILLETRAME-2 ){//-1 a cause de l'offset trametx[] et -2 car c'est la taille d'une trame -l le 1er carac -1 le dernier carac
-    printf("overflow\n");
-    flag_overflow=1;
+        printf("overflow\n");
+        flag_overflow=1;
     }else{
         trametx[compteurtrame]='\0';//fin de trame
         printf("-> ");
         for(i=0;i<TAILLETRAME;i++){//relecture afficage
             printf("%c",trametx[i]);
-            /**if(trametx[i]=='\0'){
+            if(trametx[i]=='\0'){
                printf("ok\n");
-            }**/
+            }
         }
     }
 

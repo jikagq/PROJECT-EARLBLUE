@@ -24,7 +24,7 @@ __interrupt void USCI0RX_ISR(void)//interruption permettant de recevoir un carar
     if(c == '\0'){//fin de la trame
         rxtrameuart[indexrxbufferuart]=c;
         if(rxtrameuart[0]=='f'){//trame forge -> parser
-            anvil();
+            anviluart();
         }else{
             interpreteuruart();
         }
@@ -34,8 +34,76 @@ __interrupt void USCI0RX_ISR(void)//interruption permettant de recevoir un carar
     }
 
 }
+void interpreteuruart(void){//analyse des commandes venant de codeblock en mode interpreteur (old)
+   char rxcar;
+   rxcar=rxtrameuart[0];//recup du 1er carac reprsentant l'opÃ©ration
 
-int slotuart(int slotnumber){//decodage de la trame uart
+   switch(rxcar){
+      case 'c':{//ping
+            pong();
+            raztrameuart();
+            break;
+            }
+      case 'L':{
+            led1();
+            raztrameuart();
+            break;
+            }
+      case 't':{//bypass hasardeux
+            anviluart();
+            raztrameuart();
+            break;
+            }
+      default :{
+            nak();
+            raztrameuart();
+            break;
+            }
+      }
+}
+
+void anviluart(void){//gestion des trames forge venant du pc puis apres du blutooth
+    char action;
+    action=rxtrameuart[2];//recupération de l'action a faire dans la trame forge (pour le protocole voir le readme quand ce sera écrit)
+    switch(action){//ici mettre les actions que le 2553 va faire lorqu il recevra une trame en uart l'uart
+          case 'l':{
+                ledspi();//led en spi sur 2231
+                raztrameuart();
+                break;
+                }
+          case 'a':{//avancer
+                raztrameuart();
+                break;
+                }
+          case 'r':{//reculer
+                raztrameuart();
+                break;
+                }
+          case 'd':{
+                raztrameuart();
+                break;
+                }
+          case 'g':{
+                raztrameuart();
+                break;
+                }
+          case 'b':{
+                raztrameuart();
+                break;
+                }
+          case 'm':{
+                raztrameuart();
+                break;
+                }
+          default :{//renvoyer quleque chose si trame pas compris
+                nak();
+                raztrameuart();
+                break;
+                }
+          }
+    raztrameuart();
+}
+/**int slotuart(int slotnumber){//decodage de la trame uart
     int i;
     int var=0;
     int cptseparateur=0;
@@ -82,75 +150,8 @@ int substringsemicolonuart(int debut,int fin){//conversion d'une donnée de la tr
     }
     var = atoi(subsstr);
     return var;
-}
-void interpreteuruart(void){//analyse des commandes venant de codeblock
-   char rxcar;
-   rxcar=rxtrameuart[0];//recup du 1er carac reprsentant l'opÃ©ration
+}**/
 
-   switch(rxcar){
-      case 'c':{//ping
-            pong();
-            raztrameuart();
-            break;
-            }
-      case 'L':{
-            led1();
-            raztrameuart();
-            break;
-            }
-      case 't':{
-            anvil();
-            raztrameuart();
-            break;
-            }
-      default :{
-            nak();
-            raztrameuart();
-            break;
-            }
-      }
-}
-
-void anvil(void){//gestion des trames forge venant du pc puis apres du blutooth
-    char action;
-    action=rxtrameuart[2];
-    switch(action){
-          case 'l':{
-                ledspi();
-                raztrameuart();
-                break;
-                }
-          case 'a':{
-                raztrameuart();
-                break;
-                }
-          case 'r':{
-                raztrameuart();
-                break;
-                }
-          case 'd':{
-                raztrameuart();
-                break;
-                }
-          case 'g':{
-                raztrameuart();
-                break;
-                }
-          case 'b':{
-                raztrameuart();
-                break;
-                }
-          case 'm':{
-                raztrameuart();
-                break;
-                }
-          default :{
-                raztrameuart();
-                break;
-                }
-          }
-    raztrameuart();
-}
 
 void raztrameuart(void){//raz de la trame uart
     int index=0;

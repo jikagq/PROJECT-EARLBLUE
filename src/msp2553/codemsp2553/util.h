@@ -18,9 +18,11 @@
 void delay (unsigned int ms);
 void itoad(long unsigned int value, char *result, int base);
 void raztrame(char *trame);
-int forge(int nbvaleur,char type, int *dataint, char *trameaenvoyer);
-int slot(int slotnumber);
-int substringsemicolon(int debut,int fin);
+
+int forge(int nbvaleur,char type, int *dataint, char *trameaenvoyer);//encodage
+
+int slot(int slotnumber,char *trameadecoder);//decodage
+int substringsemicolon(int debut,int fin,char *trame);
 
 
 
