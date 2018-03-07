@@ -7,18 +7,7 @@
 #include "interpreteur_uart_pc.h"
 #include "util.h"
 
-void concatenationdata(int alpha, int beta, int charlie, int delta, int *dataint){// fonction exemple aquisition de 4 donnée a transmettre // max 7 slot//doit prendre exactement le nombre d'arg de data
-//assume que il n'y a que 4 donnée a transmettre ne meme temps par tick
-    int i;
-    //NOMBREDEVALEUR
-
-
-
-
-
-    dataint[4];//return du tableau de donné conca
-}
-void forge(int nbvaleur,char type, int *dataint, char *trametx){//forge à utilisé plus tard avec concatenationdata
+int forge(int nbvaleur,char type, int *dataint, char *trametx){//forge à utilisé plus tard avec concatenationdata
     int i=0;
     int cpt=0;
     int compteurtrame=4;
@@ -29,8 +18,6 @@ void forge(int nbvaleur,char type, int *dataint, char *trametx){//forge à utilis
     trametx[1]='2';
     trametx[2]=type;
     trametx[3]=';';
-    //data<=TAILLETRAME-2//taille max des données utile
-
     //conversion int en char*
     for(i=0;i<nbvaleur;i++){
         //sprintf(s, "%d", dataint[i]); // Conversion de l'entier
@@ -53,17 +40,15 @@ void forge(int nbvaleur,char type, int *dataint, char *trametx){//forge à utilis
     printf("overflow\n");
     flag_overflow=1;
     }else{
-        trametx[TAILLETRAME-1]='\0';//fin de trame
+        trametx[compteurtrame]='\0';//fin de trame
         printf("-> ");
         for(i=0;i<TAILLETRAME;i++){//relecture afficage
             printf("%c",trametx[i]);
-            //transmit(trametx[i]);
-            if(trametx[i]=='\0'){
-               printf("ok");
-            }
+            /**if(trametx[i]=='\0'){
+               printf("ok\n");
+            }**/
         }
     }
-    raztrame();
-    //receive();
+
 return flag_overflow;
 }

@@ -7,7 +7,7 @@
 #include "interpreteur_uart_pc.h"
 #include "util.h"
 
-void forgemanuel(void){//forgage d'une trame à envoyer 0:type;1->14data;15 fin trame '\0'
+void forgemanuel(char *trametx){//forgage d'une trame à envoyer 0:type;1->14data;15 fin trame '\0'
     char c='a';
     int i;
     int fin=0;
@@ -30,17 +30,12 @@ void forgemanuel(void){//forgage d'une trame à envoyer 0:type;1->14data;15 fin t
         }
 
     }
-    trametx[TAILLETRAME-1]='\0';
-
     printf("\n");
 ////////////////////////////////mettre le msp
     printf("-> ");
    for(i=0;i<TAILLETRAME;i++){//relecture afficage
-        transmit(trametx[i]);
         printf("%c",trametx[i]);
     }
-    raztrame();//trame envoyer donc raz
-    //receive();
 }
 void frequence(void){
     int tpsh=1000;

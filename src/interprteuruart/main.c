@@ -1,7 +1,7 @@
 /***********************************************/
 /* to do list: -gerer l'overflow et faire repeter la trame*/
-/*  -ajouter un champs longueur*/
-/* -ajouter un champs nb d'element*/
+/*
+/*
 /*
 /**********************************************/
 
@@ -34,19 +34,9 @@ printf("*==================================================*\n");
 printf("*                 interpreteur UART                *\n");
 printf("*==================================================*\n");
 ////////////test////////////
-//int datainttest[]={1,10,00,45};
-//forge(4,'l',&datainttest,&trametx);//obliger d'avoir le nombre de valeur exact
-
-/**int val;
-char str[]="1000";
-val = atoi(str);
-printf("%d",val);**/
-
-/**int test=46;
-char string[5];
-itoad(test,&string,10);
-printf("entier:%d string:%s",test,string);**/
-///////////test////////////
+int datainttest[]={1,10,500};
+forge(3,'l',&datainttest,&trametx);//obliger d'avoir le nombre de valeur exact
+sendtrameuart(&trametx);
 
 printf("Taper 'h' pour l'aide\n");
 printf("->send to uc\n");
@@ -95,7 +85,8 @@ do{
         break;//quiter
         }
   case 't':{
-        forgemanuel();
+        forgemanuel(&trametx);
+        sendtrameuart(&trametx);
         break;//quiter
         }
   case 'f':{

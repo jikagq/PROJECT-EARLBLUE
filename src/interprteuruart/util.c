@@ -63,6 +63,7 @@ void ping(void){
     transmit(ping[i]);
     }
     receive();
+
 }
 void receive(void){
     char r;
@@ -88,6 +89,15 @@ void transmit(char c){
     {
         printf(" erreur WriteFile\n");
     }
+}
+void sendtrameuart(char *trametx){
+    int i=0;
+    while(trametx[i] != '\0'){
+        transmit(trametx[i]);
+        i++;
+    }
+    transmit(trametx[i+1]);
+    raztrame();
 }
 void port(void){
    int port;

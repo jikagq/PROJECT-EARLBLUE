@@ -2,6 +2,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-void forgemanuel(void);
+void forgemanuel(char *trametx);
 void frequence(void);
 void led(void);

@@ -11,3 +11,4 @@ void transmit(char c);
 void port(void);
 void inicom(void);
 void itoad(long unsigned int value, char *result, int base);
+void sendtrameuart(char *trametx);

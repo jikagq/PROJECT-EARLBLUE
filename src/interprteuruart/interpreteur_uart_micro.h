@@ -2,5 +2,5 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-void concatenationdata(int alpha, int beta, int charlie, int delta, int *dataint);
-void forge(int nbvaleur, char type, int *dataint, char *trametx);
+
+int forge(int nbvaleur, char type, int *dataint, char *trametx);
