@@ -18,6 +18,46 @@
 volatile char received_ch = 0;
 
 
+void forgespi(int nbvaleur,char type, int *dataint, char *trametx){//permet de creer une trame a envoyer en spi
+    int i=0;
+    int cpt=0;
+    int compteurtrame=4;
+    char s[6];
+    int flag_overflow=0;//donnée utile a transmettre plus grand que la taille max autorisé par une seule trame
+
+    trametx[0]='f';//1er caractere
+    trametx[1]='2';
+    trametx[2]=type;
+    trametx[3]=';';
+    int a=dataint[i];
+
+    for(i=0;i<nbvaleur;i++){
+        itoad(dataint[i], &s, 10);//conversion int en char*
+        while(s[cpt] != '\0'){
+            trametx[compteurtrame]=s[cpt];
+            cpt++;//compteur de la valeur en cours
+            compteurtrame++;//compteyr du curseur dans la trame
+        }
+        cpt=0;
+        if(i<nbvaleur-1){//bloquer le dernier ';'
+            trametx[compteurtrame]=';';
+            compteurtrame++;
+        }
+    }
+    if(compteurtrame-2 >= 16 -2 ){//-1 a cause de l'offset trametx[] et -2 car c'est la taille d'une trame -l le 1er carac -1 le dernier carac
+        flag_overflow=1;
+    }else{
+        trametx[16-1]='\0';//fin de trame
+        for(i=0;i<16;i++){//relecture afficage
+            //transmit(trametx[i]);
+            if(trametx[i]=='\0'){
+               //printf("ok");
+            }
+        }
+    }
+   raztrame();
+return flag_overflow;
+}
 
 void Init_SPI (void)
 {

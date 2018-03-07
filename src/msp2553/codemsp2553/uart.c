@@ -13,7 +13,152 @@
 #include "uart.h"
 #include "spi2553.h"
 
-void InitUART(void)
+volatile int unsigned rxbufferuart=0;
+volatile char rxtrameuart[TAILLETRAMEUART];
+
+#pragma vector=USCIAB0RX_VECTOR//reception d'une trame
+__interrupt void USCI0RX_ISR(void)//interruption permettant de recevoir un cararctere et de l'ajpouter au buffer
+{
+    unsigned char c;
+    c = UCA0RXBUF;
+    if(c == '\0'){//fin de la trame
+        rxtrameuart[rxbufferuart]=c;
+        if(rxtrameuart[0]=='f'){//trame forge -> parser
+            anvil();
+        }else{
+            interpreteuruart();
+        }
+    }else{//sinon on ajoute le caractaire à la chaine
+       rxtrameuart[rxbufferuart]=c;
+       rxbufferuart++;
+    }
+
+}
+
+int slotuart(int slotnumber){//decodage de la trame uart
+    int i;
+    int var=0;
+    int cptseparateur=0;
+    int pos=0;//0:gauche 1:droite
+    int debut=0;
+    int fin=0;
+
+    for(i=3;i<TAILLETRAMEUART-1;i++){//fin de l'entete forge à 3
+        if((rxtrameuart[i]==';') || (rxtrameuart[i]=='\0')){//;gauche
+            if(pos==0){
+               pos=1;
+               debut=i;
+               cptseparateur++;
+            }else{//;droit
+               pos=0;
+               fin=i;
+               if(cptseparateur == slotnumber){
+                //coupe
+                   var=substringsemicolonuart(debut, fin);
+                   i=TAILLETRAMEUART-1;//quite la boucle dès que la veleur est extraites pour pas se taper toutes la trame
+               }else{
+                   pos=1;
+                   debut=i;
+                   cptseparateur++;
+               }
+            }
+        }
+    }
+   return var;
+}
+
+int substringsemicolonuart(int debut,int fin){//conversion d'une donn�e de la trame uart
+    char subsstr[6];
+    int a=0;
+    int b=0;
+    int var=-1;
+
+
+    b=debut;
+    while(b<fin){
+        subsstr[a]=rxtrameuart[b+1];
+        b++;
+        a++;
+    }
+    var = atoi(subsstr);
+    return var;
+}
+void interpreteuruart(void){//analyse des commandes venant de codeblock
+   char rxcar;
+   rxcar=rxtrameuart[0];//recup du 1er carac reprsentant l'opération
+
+   switch(rxcar){
+      case 'c':{//ping
+            pong();
+            raztrameuart();
+            break;
+            }
+      case 'L':{
+            led1();
+            raztrameuart();
+            break;
+            }
+      case 't':{
+            anvil();
+            raztrameuart();
+            break;
+            }
+      default :{
+            nak();
+            raztrameuart();
+            break;
+            }
+      }
+}
+
+void anvil(void){//gestion des trames forge venant du pc puis apres du blutooth
+    char action;
+    action=rxtrameuart[2];
+    switch(action){
+          case 'l':{
+                ledspi();
+                raztrameuart();
+                break;
+                }
+          case 'a':{
+                raztrameuart();
+                break;
+                }
+          case 'r':{
+                raztrameuart();
+                break;
+                }
+          case 'd':{
+                raztrameuart();
+                break;
+                }
+          case 'g':{
+                raztrameuart();
+                break;
+                }
+          case 'b':{
+                raztrameuart();
+                break;
+                }
+          case 'm':{
+                raztrameuart();
+                break;
+                }
+          default :{
+                raztrameuart();
+                break;
+                }
+          }
+    raztrameuart();
+}
+
+void raztrameuart(void){//raz de la trame uart
+    for(rxbufferuart=0;rxbufferuart<16;rxbufferuart++){//ini de la trame rx
+        rxtrameuart[rxbufferuart]=" ";
+    }
+    rxbufferuart=0;
+}
+void InitUART(void)//initialisation de la com uart
 {
     P1SEL |= (BIT1 | BIT2);                     // P1.1 = RXD, P1.2=TXD
         P1SEL2 |= (BIT1 | BIT2);                    // P1.1 = RXD, P1.2=TXD
@@ -30,9 +175,12 @@ void InitUART(void)
 
         /* Enable USCI_A0 RX interrupt */
         IE2 |= UCA0RXIE;
+
+        raztrameuart();//ini de la trame
+        rxbufferuart=0;
 }
 
-void TXdata( unsigned char c )
+void TXdata( unsigned char c )//envoi d'un caract�re via l'uart
 {
     P1OUT ^= BIT6;//debug
     while (!(IFG2&UCA0TXIFG));  // USCI_A0 TX buffer ready?
@@ -64,14 +212,15 @@ void nak(void){
 }
 
 void debug(char *texte, int valeur){
-    int i;
+    int i=0;
     char intenchar[5];
 
     while(texte[i] != '\0'){
         TXdata(texte[i]);
+        i++;
     }
     TXdata(' ');
-    itoad(valeur, &intenchar, 10);
+    itoad(valeur, &intenchar, 10);//conversion d'un entier en chaine
 
     TXdata('\0');//fin
 }

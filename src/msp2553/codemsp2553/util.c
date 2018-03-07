@@ -49,51 +49,16 @@ void itoad(long unsigned int value, char *result, int base){//conversion entier 
 
 }
 
-void forge(int nbvaleur,char type, int *dataint, char *trametx){//forge à utilisé plus tard avec concatenationdata
-    int i=0;
-    int cpt=0;
-    int compteurtrame=4;
-    char s[6];
-    int flag_overflow=0;//donnée utile a transmettre plus grand que la taille max autorisé par une seule trame
 
-    trametx[0]='f';//1er caractere
-    trametx[1]='2';
-    trametx[2]=type;
-    trametx[3]=';';
-    //data<=TAILLETRAME-2//taille max des données utile
-    int a=dataint[i];
 
-    for(i=0;i<nbvaleur;i++){
-        itoad(dataint[i], &s, 10);//conversion int en char*
-        while(s[cpt] != '\0'){
-            //printf("%c",s[cpt]);
-            trametx[compteurtrame]=s[cpt];
-            cpt++;//compteur de la valeur en cours
-            compteurtrame++;//compteyr du curseur dans la trame
-        }
-        cpt=0;
-        //printf("\n");
-        if(i<nbvaleur-1){//bloquer le dernier ';'
-            trametx[compteurtrame]=';';
-            compteurtrame++;
-        }
-    }
-    //printf(" compteur:%d \n ",compteurtrame);
-    if(compteurtrame-2 >= 16 -2 ){//-1 a cause de l'offset trametx[] et -2 car c'est la taille d'une trame -l le 1er carac -1 le dernier carac
-    //printf("overflow\n");
-    flag_overflow=1;
-    }else{
-        trametx[16-1]='\0';//fin de trame
-        //printf("-> ");
-        for(i=0;i<16;i++){//relecture afficage
-            //printf("%c",trametx[i]);
-            //transmit(trametx[i]);
-            if(trametx[i]=='\0'){
-               //printf("ok");
-            }
-        }
-    }
-   // raztrame();
-    //receive();
-return flag_overflow;
+void raztrame(int param){
+   if(param == 1){//raz uart
+       for(rxbufferuart=0;rxbufferuart<16;rxbufferuart++){//ini de la trame rx
+           rxtrameuart[rxbufferuart]=" ";
+       }
+       rxbufferuart=0;
+   }
+   if(param == 0){
+   //raz trame spi
+   }
 }

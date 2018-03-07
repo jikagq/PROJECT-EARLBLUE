@@ -11,7 +11,11 @@
 #ifndef SPI2553_H_
 #define SPI2553_H_
 
+#define TAILLETRAMESPI 16 //taille de la trame
+#define TAILLEVALSPI 6 //val max+1 nombre de slot d'un entier
+#define NOMBREDEVALEURSPI 4 //nombre de valueur a transmettre
 
+void forgespi(int nbvaleur,char type, int *dataint, char *trametx);
 
 
 
