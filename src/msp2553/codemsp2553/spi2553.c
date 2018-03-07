@@ -18,7 +18,7 @@
 volatile char received_ch = 0;
 
 
-void forgespi(int nbvaleur,char type, int *dataint, char *trametx){//permet de creer une trame a envoyer en spi
+int forgespi(int nbvaleur,char type, int *dataint, char *trametx){//permet de creer une trame a envoyer en spi
     int i=0;
     int cpt=0;
     int compteurtrame=4;
@@ -44,18 +44,18 @@ void forgespi(int nbvaleur,char type, int *dataint, char *trametx){//permet de c
             compteurtrame++;
         }
     }
-    if(compteurtrame-2 >= 16 -2 ){//-1 a cause de l'offset trametx[] et -2 car c'est la taille d'une trame -l le 1er carac -1 le dernier carac
+    if(compteurtrame-2 >= TAILLETRAMESPI -2 ){//-1 a cause de l'offset trametx[] et -2 car c'est la taille d'une trame -l le 1er carac -1 le dernier carac
         flag_overflow=1;
     }else{
-        trametx[16-1]='\0';//fin de trame
-        for(i=0;i<16;i++){//relecture afficage
+        trametx[TAILLETRAMESPI-1]='\0';//fin de trame
+        for(i=0;i<TAILLETRAMESPI;i++){//relecture afficage
             //transmit(trametx[i]);
             if(trametx[i]=='\0'){
                //printf("ok");
             }
         }
     }
-   raztrame();
+   //raztrame();
 return flag_overflow;
 }
 
@@ -81,7 +81,7 @@ void Init_SPI (void)
 	  UCB0CTL1 &= ~UCSWRST;                     // **Initialize USCI state machine**
 }
 
-int send_SPI (char* trame_SPI)
+void send_SPI (char* trame_SPI)
 {
   int i=0;
 // Ajout d'une boucle infinie afin d'envoyer en boucle un caractère
@@ -94,7 +94,7 @@ int send_SPI (char* trame_SPI)
     }
  
     while (!(IFG2 & UCB0RXIFG));
-    received_ch = UCB0RXBUF;
+        received_ch = UCB0RXBUF;
     P1OUT |= BIT4;                            // reset slave cs high
   }while (trame_SPI [i] =! '\0');             // Trame_SPI  n'est pas nul
 }

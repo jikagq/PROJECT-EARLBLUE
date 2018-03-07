@@ -1,7 +1,7 @@
 ******************************************************************************
                   MSP430 Linker PC v16.9.4                     
 ******************************************************************************
->> Linked Tue Mar 06 11:37:21 2018
+>> Linked Wed Mar 07 14:37:50 2018
 
 OUTPUT FILE NAME:   <comspi.out>
 ENTRY POINT SYMBOL: "_c_int00_noargs_noexit"  address: 0000fbaa

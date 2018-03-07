@@ -37,7 +37,7 @@ void ledspi()
     dataint[1]=frequence;
 
     forgespi(2,'l',&dataint,&trame_SPI);//forgage de la trame spi à transmettre
-    //sendspi(&trame_SPI);//envoi de la trame spi
+    send_SPI(&trame_SPI);//envoi de la trame spi
 }
 
 
@@ -83,6 +83,7 @@ void main(void)
 
 
     InitUART();
+    Init_SPI();
 
     __bis_SR_register(GIE); // interrupts enabled
 
@@ -100,7 +101,7 @@ void main(void)
            P1OUT &= ~BIT0;
         }
     }
-    return 0;
+
 }
 
 

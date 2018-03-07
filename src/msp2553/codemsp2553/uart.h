@@ -15,11 +15,12 @@
 #define TAILLEVALUART 6 //val max+1 nombre de slot d'un entier
 #define NOMBREDEVALEURUART 4 //nombre de valueur a transmettre
 
-extern volatile int unsigned rxbufferuart;
+extern volatile int unsigned indexrxbufferuart;
 extern volatile char rxtrameuart[TAILLETRAMEUART];
 
-int slotuart(int slotnumber);
-int substringsemicolonuart(int debut,int fin);
+extern void send_SPI (char* trame_SPI);
+extern int slotuart(int slotnumber);
+extern int substringsemicolonuart(int debut,int fin);
 extern void interpreteuruart(void);
 extern void anvil(void);
 extern void raztrameuart(void);

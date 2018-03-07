@@ -1,4 +1,4 @@
-/*msp2132 spi reception*/
+/*msp2231spi reception*/
 #include <msp430.h>
 
 #define SPITAILLETRAME 16 //taille de la trame
@@ -79,6 +79,19 @@ int slot(int slotnumber){
    return var;
 }
 
+SendSpislave(char c){
+
+    USISRL = c;
+    USICNT = 8;
+}
+SendSpitrameslave(char *data){
+    int i =0;
+    while(data != '\0'){
+        SendSpislave(data[i]);
+        i++;
+    }
+}
+
 int substringsemicolon(int debut,int fin){
     char subsstr[6];
     int a=0;
@@ -157,3 +170,5 @@ __interrupt void universal_serial_interface(void)
      USISRL = P1IN;
      USICNT = 8;
 }
+
+

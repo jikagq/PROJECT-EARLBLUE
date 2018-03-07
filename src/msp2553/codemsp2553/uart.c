@@ -13,7 +13,7 @@
 #include "uart.h"
 #include "spi2553.h"
 
-volatile int unsigned rxbufferuart=0;
+volatile int unsigned indexrxbufferuart=0;
 volatile char rxtrameuart[TAILLETRAMEUART];
 
 #pragma vector=USCIAB0RX_VECTOR//reception d'une trame
@@ -22,15 +22,15 @@ __interrupt void USCI0RX_ISR(void)//interruption permettant de recevoir un carar
     unsigned char c;
     c = UCA0RXBUF;
     if(c == '\0'){//fin de la trame
-        rxtrameuart[rxbufferuart]=c;
+        rxtrameuart[indexrxbufferuart]=c;
         if(rxtrameuart[0]=='f'){//trame forge -> parser
             anvil();
         }else{
             interpreteuruart();
         }
     }else{//sinon on ajoute le caractaire Ã  la chaine
-       rxtrameuart[rxbufferuart]=c;
-       rxbufferuart++;
+       rxtrameuart[indexrxbufferuart]=c;
+       indexrxbufferuart++;
     }
 
 }
@@ -153,10 +153,11 @@ void anvil(void){//gestion des trames forge venant du pc puis apres du blutooth
 }
 
 void raztrameuart(void){//raz de la trame uart
-    for(rxbufferuart=0;rxbufferuart<16;rxbufferuart++){//ini de la trame rx
-        rxtrameuart[rxbufferuart]=" ";
+    int index=0;
+    for(index=0;index<TAILLETRAMEUART;index++){//ini de la trame rx
+        rxtrameuart[index]=" ";
     }
-    rxbufferuart=0;
+    indexrxbufferuart=0;
 }
 void InitUART(void)//initialisation de la com uart
 {
@@ -177,7 +178,11 @@ void InitUART(void)//initialisation de la com uart
         IE2 |= UCA0RXIE;
 
         raztrameuart();//ini de la trame
-        rxbufferuart=0;
+        indexrxbufferuart=0;
+
+       // volatile char test[5];
+        //volatile int nombtre[5];
+        //forge(2,'a', &nombtre, &test);
 }
 
 void TXdata( unsigned char c )//envoi d'un caractère via l'uart
