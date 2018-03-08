@@ -14,6 +14,7 @@
 #include "uart.h"
 #include "spi2553.h"
 
+//ajouer les variables globales
 
 volatile char received_ch = 0;
 

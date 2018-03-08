@@ -13,6 +13,7 @@
 
 void delay (unsigned int ms);
 void itoad(long unsigned int value, char *result, int base);
+void forge(int nbvaleur, char type, int *dataint, char *trametx);
 
 
 

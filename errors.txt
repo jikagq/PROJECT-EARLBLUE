@@ -8,10 +8,10 @@
 *    \/___/  \/_/\/ /\/_/\/ /\/_____/\/_/\/ /    \/___/   \/_____/\/_____/\/_/\/_/  \/_/  \/___/  \/_/\/ /        *
 *                                                                                                                 *
 *=================================================================================================================*                                        
-*			Mathias			    *					Théo			  *
+*			Mathias			    					*					Théo			  						  *
 *=================================================================================================================*
-*                                                   *                      tableau d'entier déclaré en char       *
-*                                                   *                     variable initialisée dans un .h         *
+*  utilisation d une sortie pour faire une mesure   *	                   tableau d'entier déclaré en char       *
+*             utilisation du port 2 sur le 2231     *                     variable initialisée dans un .h         *
 *                                                   *                                                             *
 *                                                   *                                                             *
 *                                                   *                                                             *

@@ -5,13 +5,13 @@
  *      Author: theo-
  */
 
-#include <msp430g2553.h>
+#include <msp430g2231.h>
 #include <msp430.h>
 
 #include "main.h"
 #include "util.h"
-#include "uart.h"
-#include "spi2553.h"
+#include "pwmservo.h"
+#include "spi2231.h"
 
 
 
@@ -28,6 +28,7 @@ int forge(int nbvaleur,char type, int *dataint, char *trameaenvoyer){//permet de
     int compteurtrame=4;
     char s[TAILLEVAL];
     int flag_overflow=0;//donnée utile a transmettre plus grand que la taille max autorisé par une seule trame
+
 
     trameaenvoyer[0]='f';//trame forge
     trameaenvoyer[1]='2';//je sais pas encore
@@ -77,7 +78,6 @@ int slot(int slotnumber, char *trameadecoder){//decodage de la trame forge
                fin=i;
                if(cptseparateur == slotnumber){
                 //coupe
-                   //*trameadecoder=0;
                    var=substringsemicolon(debut, fin, p);
                    i=TAILLETRAME-1;//quite la boucle dÃ¨s que la veleur est extraites pour pas se taper toutes la trame
                }else{
@@ -90,8 +90,6 @@ int slot(int slotnumber, char *trameadecoder){//decodage de la trame forge
     }
    return var;
 }
-
-
 
 int substringsemicolon(int debut,int fin, char *trame ){//conversion d'une donnée de la trame uart char*->int
     char subsstr[TAILLEVAL];
