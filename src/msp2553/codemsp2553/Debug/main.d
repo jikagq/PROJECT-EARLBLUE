@@ -10,6 +10,7 @@ main.obj: ../main.h
 main.obj: ../util.h
 main.obj: ../uart.h
 main.obj: ../spi2553.h
+main.obj: ../drivermoteur.h
 
 ../main.c: 
 C:/Program\ Files\ (x86)/ti/ccsv7/ccsv7/ccs_base/msp430/include/msp430g2553.h: 
@@ -21,3 +22,4 @@ C:/Program\ Files\ (x86)/ti/ccsv7/ccsv7/ccs_base/msp430/include/msp430.h:
 ../util.h: 
 ../uart.h: 
 ../spi2553.h: 
+../drivermoteur.h: 

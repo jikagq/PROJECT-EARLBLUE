@@ -73,6 +73,7 @@ void anviluart(void){//gestion des trames forge venant du pc puis apres du bluto
                 }
           case 'a':{//avancer
                 raztrameuart();
+                avancer();
                 break;
                 }
           case 'r':{//reculer

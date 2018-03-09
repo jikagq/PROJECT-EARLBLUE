@@ -12,6 +12,7 @@
 #include "util.h"
 #include "uart.h"
 #include "spi2553.h"
+#include "drivermoteur.h"
 
 volatile unsigned int i;
 
@@ -42,7 +43,7 @@ void ledspi()
 
     //forgespi(2,'l',&dataint,&trame_SPI);//forgage de la trame spi à transmettre
     forge(2,'l',&dataint,&trame_SPI);//forgage de la trame spi à transmettre
-    send_SPI(&trame_SPI);//envoi de la trame spi
+    //send_SPI(&trame_SPI);//envoi de la trame spi
 }
 
 
@@ -88,7 +89,9 @@ void main(void)
 
 
     InitUART();
-    //Init_SPI();//!attention bug avec le spi!
+    Init_SPI();//!attention bug avec le spi!
+    //testmoteur();
+    initmoteur();
 
     __bis_SR_register(GIE); // interrupts enabled
 
@@ -105,6 +108,13 @@ void main(void)
         }else{
            P1OUT &= ~BIT0;
         }
+
+
+        delay(5000);
+        testmoteur();
+
+
+
     }
 
 }
