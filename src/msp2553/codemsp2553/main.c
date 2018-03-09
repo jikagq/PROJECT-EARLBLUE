@@ -12,6 +12,9 @@
 #include "util.h"
 #include "uart.h"
 #include "spi2553.h"
+#include "capteurInfrarouge.h"
+#include "ADC.h"
+
 
 volatile unsigned int i;
 
@@ -97,6 +100,7 @@ void main(void)
 
 
     while(1){
+        detacteObstacleEtArreter();
         if(onoffled1 == 1){
             P1OUT |= BIT0;
             delay(tpsh);

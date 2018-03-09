@@ -15,7 +15,9 @@ int etat=0;
 int main(void)
 {
 	WDTCTL = WDTPW | WDTHOLD;	// stop watchdog timer
-	initSPI();
+	//initSPI();
+	initpwmservo();
+
 	 if(etat==1){
 	      P1OUT |= 0x01;
 	      delay(freq);

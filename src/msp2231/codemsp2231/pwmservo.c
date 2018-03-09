@@ -20,18 +20,6 @@
 #include "spi2231.h"
 
 
-int Conv_angle_position (int pas)
-{
-    int angle = 1;
-    int i;
-    TACCR1 = 500;
-    for (i = 1; i<181; i=i+pas)
-    {
-        //angle =;
-        delay (2000);
-    }
-
-}
 
 
 void initpwmservo(void) {
@@ -67,15 +55,29 @@ void initpwmservo(void) {
 
      TACCR1 = 500;
      delay (2000);
-     TACCR1 = 1000;
+     TACCR1 = 722;
      delay (2000);
-     TACCR1 = 1500;
+     TACCR1 = 944;
      delay (2000);
-     TACCR1 = 2000;
+     //TACCR1 = 1000;
+     TACCR1 = 1166;
      delay (2000);
+     TACCR1 = 1388;
+     delay (2000);
+     //TACCR1 = 1500;
+     //delay (2000);
+     TACCR1 = 1611;
+     delay (2000);
+     TACCR1 = 1833;
+     delay (2000);
+     TACCR1 = 2055;
+     delay (2000);
+     TACCR1 = 2277;
+     delay (2000);
+     //TACCR1 = 2000;
+    // delay (2000);
      TACCR1 = 2500;
      delay (2000);
-
 
  }while (1);
 }

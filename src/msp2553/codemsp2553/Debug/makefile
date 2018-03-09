@@ -4,12 +4,14 @@
 
 SHELL = cmd.exe
 
-CG_TOOL_ROOT := C:/Program Files (x86)/ti/ccsv7/ccsv7/tools/compiler/ti-cgt-msp430_16.9.4.LTS
+CG_TOOL_ROOT := C:/ti/ccsv7/tools/compiler/ti-cgt-msp430_16.9.6.LTS
 
 GEN_OPTS__FLAG := 
 GEN_CMDS__FLAG := 
 
 ORDERED_OBJS += \
+"./ADC.obj" \
+"./capteurInfrarouge.obj" \
 "./main.obj" \
 "./spi2553.obj" \
 "./uart.obj" \
@@ -141,23 +143,24 @@ all: $(OBJS) $(CMD_SRCS) $(GEN_CMDS)
 
 # Tool invocations
 codemsp2553.out: $(OBJS) $(CMD_SRCS) $(GEN_CMDS)
-	@echo 'Building target: $@'
+	@echo 'Building target: "$@"'
 	@echo 'Invoking: MSP430 Linker'
-	"C:/Program Files (x86)/ti/ccsv7/ccsv7/tools/compiler/ti-cgt-msp430_16.9.4.LTS/bin/cl430" -vmsp --use_hw_mpy=none --advice:power=all --define=__MSP430G2553__ -g --printf_support=minimal --diag_warning=225 --diag_wrap=off --display_error_number -z -m"codemsp2553.map" --heap_size=80 --stack_size=80 -i"C:/Program Files (x86)/ti/ccsv7/ccsv7/ccs_base/msp430/include" -i"C:/Program Files (x86)/ti/ccsv7/ccsv7/tools/compiler/ti-cgt-msp430_16.9.4.LTS/lib" -i"C:/Program Files (x86)/ti/ccsv7/ccsv7/tools/compiler/ti-cgt-msp430_16.9.4.LTS/include" --reread_libs --diag_wrap=off --display_error_number --warn_sections --xml_link_info="codemsp2553_linkInfo.xml" --use_hw_mpy=none --rom_model -o "codemsp2553.out" $(ORDERED_OBJS)
-	@echo 'Finished building target: $@'
+	"C:/ti/ccsv7/tools/compiler/ti-cgt-msp430_16.9.6.LTS/bin/cl430" -vmsp --use_hw_mpy=none --advice:power=all --define=__MSP430G2553__ -g --printf_support=minimal --diag_warning=225 --diag_wrap=off --display_error_number -z -m"codemsp2553.map" --heap_size=80 --stack_size=80 -i"C:/ti/ccsv7/ccs_base/msp430/include" -i"C:/ti/ccsv7/tools/compiler/ti-cgt-msp430_16.9.6.LTS/lib" -i"C:/ti/ccsv7/tools/compiler/ti-cgt-msp430_16.9.6.LTS/include" --reread_libs --diag_wrap=off --display_error_number --warn_sections --xml_link_info="codemsp2553_linkInfo.xml" --use_hw_mpy=none --rom_model -o "codemsp2553.out" $(ORDERED_OBJS)
+	@echo 'Finished building target: "$@"'
 	@echo ' '
 
 codemsp2553.hex: $(EXE_OUTPUTS)
+	@echo 'Building files: $(strip $(EXE_OUTPUTS__QUOTED))'
 	@echo 'Invoking: MSP430 Hex Utility'
-	"C:/Program Files (x86)/ti/ccsv7/ccsv7/tools/compiler/ti-cgt-msp430_16.9.4.LTS/bin/hex430" --memwidth=8 --romwidth=8 -o "codemsp2553.hex" $(EXE_OUTPUTS__QUOTED)
-	@echo 'Finished building: $@'
+	"C:/ti/ccsv7/tools/compiler/ti-cgt-msp430_16.9.6.LTS/bin/hex430" --memwidth=8 --romwidth=8 -o "codemsp2553.hex" $(EXE_OUTPUTS__QUOTED)
+	@echo 'Finished building: $(strip $(EXE_OUTPUTS__QUOTED))'
 	@echo ' '
 
 # Other Targets
 clean:
 	-$(RM) $(BIN_OUTPUTS__QUOTED)$(EXE_OUTPUTS__QUOTED)
-	-$(RM) "main.obj" "spi2553.obj" "uart.obj" "util.obj" 
-	-$(RM) "main.d" "spi2553.d" "uart.d" "util.d" 
+	-$(RM) "ADC.obj" "capteurInfrarouge.obj" "main.obj" "spi2553.obj" "uart.obj" "util.obj" 
+	-$(RM) "ADC.d" "capteurInfrarouge.d" "main.d" "spi2553.d" "uart.d" "util.d" 
 	-@echo 'Finished clean'
 	-@echo ' '
 
