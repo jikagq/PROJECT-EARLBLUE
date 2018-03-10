@@ -21,13 +21,14 @@ __interrupt void universal_serial_interface(void)//interruption spi rx
 {
     unsigned char c;
     c = USISRL;
-        if(c == '\0'){//fin de la trame
+    SendSpislave(c);
+    /**    if(c == '\0'){//fin de la trame
             spirxtrame[spirxbuffer]=c;
             anvilspi();
         }else{//sinon on ajoute le caractaire à la chaine
            spirxtrame[spirxbuffer]=c;
            spirxbuffer++;
-        }
+        }**/
      USISRL = P1IN;
      USICNT = 8;
 }
