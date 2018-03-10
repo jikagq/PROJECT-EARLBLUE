@@ -47,7 +47,10 @@ void ledspi()
 }
 
 
-
+void led(void){
+    onoffled1 = slot(1,&rxtrameuart);//recupération des variable en entier arrivant de l'uart
+    tpsh = tpsb = slot(2,&rxtrameuart);
+}
 
 
 void led1(void){
@@ -89,9 +92,9 @@ void main(void)
 
 
     InitUART();
-    Init_SPI();//!attention bug avec le spi!
+    //Init_SPI();//!attention bug avec le spi!
     //testmoteur();
-    initmoteur();
+    //initmoteur();
 
     __bis_SR_register(GIE); // interrupts enabled
 

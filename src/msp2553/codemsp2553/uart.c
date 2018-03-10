@@ -71,29 +71,51 @@ void anviluart(void){//gestion des trames forge venant du pc puis apres du bluto
                 raztrameuart();
                 break;
                 }
+          case 'L':{
+                led();
+                raztrameuart();
+                TXdata(0x06);
+                break;
+                }
           case 'a':{//avancer
                 raztrameuart();
                 avancer();
+                TXdata(0x06);
                 break;
                 }
           case 'r':{//reculer
                 raztrameuart();
+                reculer();
+                TXdata(0x06);
                 break;
                 }
           case 'd':{
                 raztrameuart();
+                droite();
+                TXdata(0x06);
                 break;
                 }
           case 'g':{
                 raztrameuart();
+                gauche();
+                TXdata(0x06);
                 break;
                 }
-          case 'b':{
+          case 's':{
+                stop();
                 raztrameuart();
+                TXdata(0x06);
                 break;
                 }
           case 'm':{
                 raztrameuart();
+                TXdata(0x06);
+                break;
+                }
+          case 't':{
+                raztrameuart();
+                testmoteur();
+                TXdata(0x06);
                 break;
                 }
           default :{//renvoyer quleque chose si trame pas compris
@@ -189,7 +211,7 @@ void InitUART(void)//initialisation de la com uart
 
 void TXdata( unsigned char c )//envoi d'un caractère via l'uart
 {
-    P1OUT ^= BIT6;//debug
+    //P1OUT ^= BIT6;//debug
     while (!(IFG2&UCA0TXIFG));  // USCI_A0 TX buffer ready?
     UCA0TXBUF = c;              // TX -> RXed character
 }
