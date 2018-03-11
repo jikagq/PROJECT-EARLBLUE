@@ -1,1 +1,0 @@
-"./main.obj" "./pwmservo.obj" "./spi2231.obj" "./util.obj" "../lnk_msp430g2231.cmd" -llibc.a 
