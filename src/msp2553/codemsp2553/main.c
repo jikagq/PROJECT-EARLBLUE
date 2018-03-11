@@ -23,37 +23,28 @@ int compteurtrameinutile=0;
 
 
 
-void ledspi()
+void ledspi(void)// led 2231 par spi
 {
-	int i;
-    int etat = 0;
-    int frequence = 500;
-    char trame_SPI[TAILLETRAMESPI];
     int dataint[NOMBREDEVALEURSPI];
     //!!!utilisation des fonction generique dans util.c
-    //etat = slotuart(1);//recupération des variable en entier arrivant de l'uart
-    //frequence = slotuart(2);
 
-    etat = slot(1,&rxtrameuart);//recupération des variable en entier arrivant de l'uart
-    frequence = slot(2,&rxtrameuart);
-    raztrame(&rxtrameuart);//raz de la trame une fois les données extraites
-    //peut etre simplifier sans les variables
-    dataint[0]=etat;//remplissage tableau de donnée à transmettre en spi
-    dataint[1]=frequence;
+    dataint[0] = slot(1,&rxtrameuart);//recupération des variable en entier arrivant de l'uart
+    dataint[1] = slot(2,&rxtrameuart);// préparation des données à transmettre en spi
 
-    //forgespi(2,'l',&dataint,&trame_SPI);//forgage de la trame spi à transmettre
-    forge(2,'l',&dataint,&trame_SPI);//forgage de la trame spi à transmettre
-    //send_SPI(&trame_SPI);//envoi de la trame spi
+    raztrameuart();//raz de la trame uart une fois les données extraites
+
+    forge(2,'l',&dataint,&trametx_SPI);//forgage de la trame spi à transmettre
+    send_SPI(&trametx_SPI);//envoi de la trame spi
 }
 
 
-void led(void){
+void led(void){//led 2553
     onoffled1 = slot(1,&rxtrameuart);//recupération des variable en entier arrivant de l'uart
     tpsh = tpsb = slot(2,&rxtrameuart);
 }
 
 
-void led1(void){
+void led1(void){//led 2553
    if(rxtrameuart[1]=='1'){
        ack();
        onoffled1=1;
@@ -92,9 +83,12 @@ void main(void)
 
 
     InitUART();
-    //Init_SPI();//!attention bug avec le spi!
+    Init_SPI();//!attention bug avec le spi!
     //testmoteur();
     //initmoteur();
+
+    int donnetest[] ={1,1000};
+
 
     __bis_SR_register(GIE); // interrupts enabled
 
@@ -112,14 +106,15 @@ void main(void)
            P1OUT &= ~BIT0;
         }
 
-
-        delay(5000);
-        testmoteur();
-
-
-
+        forge(2,'l',&donnetest,&trametx_SPI);//forgage de la trame spi à transmettre
+        send_SPI(&trametx_SPI);//envoi de la trame spi
+        delay(1000);
+        //sendspichar('f');
+        //__delay_cycles(75);
+        //sendspichar('1');
+        //__delay_cycles(75);
+        //sendspichar('\0');
     }
-
 }
 
 

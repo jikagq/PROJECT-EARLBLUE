@@ -17,6 +17,88 @@
 //ajouer les variables globales
 
 volatile char received_ch = 0;
+volatile char trametx_SPI[TAILLETRAMESPI];
+
+
+
+void Init_SPI (void)
+{
+
+	  P1DIR |= BIT4;//bit 5 sortie
+	  P1OUT |= BIT4;//spi slave cs=1
+
+
+	  P1SEL |= (BIT6 | BIT7 | BIT5);
+	  P1SEL2 |= (BIT6 | BIT7 | BIT5);
+
+	  UCB0CTL1 |= UCSWRST;
+
+	  UCB0CTL0 |= (UCCKPH | UCMSB | UCMST | UCSYNC | UCCKPL);  // 3-pin, 8-bit SPI master//ajout de ucckpl !?
+	  UCB0CTL1 |= UCSSEL_2;                     // SMCLK
+	  // Bit clk prescaler setting
+	  UCB0BR0 |= 0x02;                          // /2
+	  UCB0BR1 = 0;                              //
+	  // Modulation Control Register
+	  UCA0MCTL = 0;                             // No modulation
+	  UCB0CTL1 &= ~UCSWRST;                     // **Initialize USCI state machine**
+
+	  P1OUT &= ~BIT4;//selection de l'esclave cs low
+	  P1OUT |= BIT4; // reset slave cs high
+
+	  __delay_cycles(75);
+}
+
+void send_SPI (char* trame_SPI)
+{
+    int i=0;
+
+    while(trame_SPI[i] != '\0'){
+        sendspichar(trame_SPI[i]);
+        i++;
+        __delay_cycles(75);
+    }
+    i++;
+    sendspichar(trame_SPI[i]);
+
+
+}
+
+void sendspichar(char c){
+    P1OUT &= ~BIT4;//selection de l'esclave cs low
+    while (!(IFG2 & UCB0TXIFG));
+    UCB0TXBUF = c;
+    __delay_cycles(20);
+    P1OUT |= BIT4; // reset slave cs high
+}
+
+
+
+
+void raztramespi(void){//raz de la trame uart
+    int index=0;
+    for(index=0;index<TAILLETRAMESPI;index++){//ini de la trame rx
+        trametx_SPI[index]=' ';
+    }
+    //indexrxbufferuart=0;//mettre le raz du rx spi
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 /**int forgespi(int nbvaleur,char type, int *dataint, char *trametx){//permet de creer une trame a envoyer en spi
@@ -59,44 +141,3 @@ volatile char received_ch = 0;
    //raztrame();
 return flag_overflow;
 }**/
-
-void Init_SPI (void)
-{
-
-	  P1DIR |= BIT4;//bit 5 sortie
-	  P1OUT |= BIT4;//spi slave cs=1
-
-
-	  P1SEL |= (BIT6 | BIT7 | BIT5);
-	  P1SEL2 |= (BIT6 | BIT7 | BIT5);
-
-	  UCB0CTL1 |= UCSWRST;
-
-	  UCB0CTL0 |= (UCCKPH | UCMSB | UCMST | UCSYNC | UCCKPL);  // 3-pin, 8-bit SPI master//ajout de ucckpl !?
-	  UCB0CTL1 |= UCSSEL_2;                     // SMCLK
-	  // Bit clk prescaler setting
-	  UCB0BR0 |= 0x02;                          // /2
-	  UCB0BR1 = 0;                              //
-	  // Modulation Control Register
-	  UCA0MCTL = 0;                             // No modulation
-	  UCB0CTL1 &= ~UCSWRST;                     // **Initialize USCI state machine**
-}
-
-void send_SPI (char* trame_SPI)
-{
-  int i=0;
-// Ajout d'une boucle infinie afin d'envoyer en boucle un caractère
-  do{
-    P1OUT &= ~BIT4;//selection de l'esclave cs low
-    while (!(IFG2 & UCB0TXIFG)); // Buffer ready
-    {
-        UCB0TXBUF = trame_SPI [i]; // Envoie de caractère. Changement de valeur pour envoie d'un nouveau caractère.
-        i++;
-    }
- 
-    while (!(IFG2 & UCB0RXIFG));
-        received_ch = UCB0RXBUF;
-    P1OUT |= BIT4;                            // reset slave cs high
-  }while (trame_SPI [i] =! '\0');             // Trame_SPI  n'est pas nul what ?
-}
-

@@ -126,54 +126,6 @@ void anviluart(void){//gestion des trames forge venant du pc puis apres du bluto
           }
     raztrameuart();
 }
-/**int slotuart(int slotnumber){//decodage de la trame uart
-    int i;
-    int var=0;
-    int cptseparateur=0;
-    int pos=0;//0:gauche 1:droite
-    int debut=0;
-    int fin=0;
-
-    for(i=3;i<TAILLETRAMEUART-1;i++){//fin de l'entete forge à 3
-        if((rxtrameuart[i]==';') || (rxtrameuart[i]=='\0')){//;gauche
-            if(pos==0){
-               pos=1;
-               debut=i;
-               cptseparateur++;
-            }else{//;droit
-               pos=0;
-               fin=i;
-               if(cptseparateur == slotnumber){
-                //coupe
-                   var=substringsemicolonuart(debut, fin);
-                   i=TAILLETRAMEUART-1;//quite la boucle dès que la veleur est extraites pour pas se taper toutes la trame
-               }else{
-                   pos=1;
-                   debut=i;
-                   cptseparateur++;
-               }
-            }
-        }
-    }
-   return var;
-}
-
-int substringsemicolonuart(int debut,int fin){//conversion d'une donn�e de la trame uart
-    char subsstr[6];
-    int a=0;
-    int b=0;
-    int var=-1;
-
-
-    b=debut;
-    while(b<fin){
-        subsstr[a]=rxtrameuart[b+1];
-        b++;
-        a++;
-    }
-    var = atoi(subsstr);
-    return var;
-}**/
 
 
 void raztrameuart(void){//raz de la trame uart
@@ -253,3 +205,53 @@ void debug(char *texte, int valeur){
 
     TXdata('\0');//fin
 }
+
+
+/**int slotuart(int slotnumber){//decodage de la trame uart
+    int i;
+    int var=0;
+    int cptseparateur=0;
+    int pos=0;//0:gauche 1:droite
+    int debut=0;
+    int fin=0;
+
+    for(i=3;i<TAILLETRAMEUART-1;i++){//fin de l'entete forge à 3
+        if((rxtrameuart[i]==';') || (rxtrameuart[i]=='\0')){//;gauche
+            if(pos==0){
+               pos=1;
+               debut=i;
+               cptseparateur++;
+            }else{//;droit
+               pos=0;
+               fin=i;
+               if(cptseparateur == slotnumber){
+                //coupe
+                   var=substringsemicolonuart(debut, fin);
+                   i=TAILLETRAMEUART-1;//quite la boucle dès que la veleur est extraites pour pas se taper toutes la trame
+               }else{
+                   pos=1;
+                   debut=i;
+                   cptseparateur++;
+               }
+            }
+        }
+    }
+   return var;
+}
+
+int substringsemicolonuart(int debut,int fin){//conversion d'une donn�e de la trame uart
+    char subsstr[6];
+    int a=0;
+    int b=0;
+    int var=-1;
+
+
+    b=debut;
+    while(b<fin){
+        subsstr[a]=rxtrameuart[b+1];
+        b++;
+        a++;
+    }
+    var = atoi(subsstr);
+    return var;
+}**/
