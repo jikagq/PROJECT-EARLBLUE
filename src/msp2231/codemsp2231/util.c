@@ -18,7 +18,7 @@
 void raztrame(char *trame){//raz trame uart ou spi
     int index=0;
      for(index=0;index<TAILLETRAME;index++){//ini de la trame rx
-         trame[index]=" ";
+         trame[index]='\0';
      }
 }
 
