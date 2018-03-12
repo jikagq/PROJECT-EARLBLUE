@@ -87,7 +87,7 @@ void main(void)
     //testmoteur();
     //initmoteur();
 
-    int donnetest[] ={1,1000};
+    int donnetest[] ={1,200};
 
 
     __bis_SR_register(GIE); // interrupts enabled
@@ -106,9 +106,9 @@ void main(void)
            P1OUT &= ~BIT0;
         }
 
-        forge(2,'l',&donnetest,&trametx_SPI);//forgage de la trame spi à transmettre
-        send_SPI(&trametx_SPI);//envoi de la trame spi
-        delay(1000);
+        //forge(2,'l',&donnetest,&trametx_SPI);//forgage de la trame spi à transmettre
+        //send_SPI(&trametx_SPI);//envoi de la trame spi
+        //delay(1000);
         //sendspichar('f');
         //__delay_cycles(75);
         //sendspichar('1');
