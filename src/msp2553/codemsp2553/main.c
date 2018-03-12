@@ -85,9 +85,9 @@ void main(void)
     InitUART();
     Init_SPI();//!attention bug avec le spi!
     //testmoteur();
-    //initmoteur();
+    initmoteur();
 
-    int donnetest[] ={1,200};
+    //int donnetest[] ={1,200};
 
 
     __bis_SR_register(GIE); // interrupts enabled
