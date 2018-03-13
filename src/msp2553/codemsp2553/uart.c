@@ -71,28 +71,51 @@ void anviluart(void){//gestion des trames forge venant du pc puis apres du bluto
                 raztrameuart();
                 break;
                 }
+          case 'L':{
+                led();
+                raztrameuart();
+                TXdata(0x06);
+                break;
+                }
           case 'a':{//avancer
                 raztrameuart();
+                avancer();
+                TXdata(0x06);
                 break;
                 }
           case 'r':{//reculer
                 raztrameuart();
+                reculer();
+                TXdata(0x06);
                 break;
                 }
           case 'd':{
                 raztrameuart();
+                droite();
+                TXdata(0x06);
                 break;
                 }
           case 'g':{
                 raztrameuart();
+                gauche();
+                TXdata(0x06);
                 break;
                 }
-          case 'b':{
+          case 's':{
+                stop();
                 raztrameuart();
+                TXdata(0x06);
                 break;
                 }
           case 'm':{
                 raztrameuart();
+                TXdata(0x06);
+                break;
+                }
+          case 't':{
+                raztrameuart();
+                testmoteur();
+                TXdata(0x06);
                 break;
                 }
           default :{//renvoyer quleque chose si trame pas compris
@@ -103,6 +126,87 @@ void anviluart(void){//gestion des trames forge venant du pc puis apres du bluto
           }
     raztrameuart();
 }
+
+
+void raztrameuart(void){//raz de la trame uart
+    int index=0;
+    for(index=0;index<TAILLETRAMEUART;index++){//ini de la trame rx
+        rxtrameuart[index]=" ";
+    }
+    indexrxbufferuart=0;
+}
+void InitUART(void)//initialisation de la com uart
+{
+    P1SEL |= (BIT1 | BIT2);                     // P1.1 = RXD, P1.2=TXD
+        P1SEL2 |= (BIT1 | BIT2);                    // P1.1 = RXD, P1.2=TXD
+        UCA0CTL1 = UCSWRST;                         // SOFTWARE RESET
+        UCA0CTL1 |= UCSSEL_3;                       // SMCLK (2 - 3)
+
+        UCA0CTL0 &= ~(UCPEN | UCMSB | UCDORM);
+        UCA0CTL0 &= ~(UC7BIT | UCSPB | UCMODE_3 | UCSYNC); // dta:8 stop:1 usci_mode3uartmode
+        UCA0CTL1 &= ~UCSWRST;                   // **Initialize USCI state machine**
+
+        UCA0BR0 = 104;                              // 1MHz, OSC16, 9600 (8Mhz : 52) : 8/115k
+        UCA0BR1 = 0;                                // 1MHz, OSC16, 9600
+        UCA0MCTL = 10;
+
+        /* Enable USCI_A0 RX interrupt */
+        IE2 |= UCA0RXIE;
+
+        raztrameuart();//ini de la trame
+        indexrxbufferuart=0;
+
+       // volatile char test[5];
+        //volatile int nombtre[5];
+        //forge(2,'a', &nombtre, &test);
+}
+
+void TXdata( unsigned char c )//envoi d'un caractère via l'uart
+{
+    //P1OUT ^= BIT6;//debug
+    while (!(IFG2&UCA0TXIFG));  // USCI_A0 TX buffer ready?
+    UCA0TXBUF = c;              // TX -> RXed character
+}
+
+void pong(void){
+    unsigned int i;
+    char pong[] = "pong";
+    for(i=0;i<5;i++){
+        TXdata(pong[i]);
+    }
+
+}
+
+void ack(void){
+    unsigned int i;
+    char ack[] = "ack";
+    for(i=0;i<4;i++){
+        TXdata(ack[i]);
+    }
+}
+void nak(void){
+    unsigned int i;
+    char nak[] = "nak";
+    for(i=0;i<4;i++){
+        TXdata(nak[i]);
+    }
+}
+
+void debug(char *texte, int valeur){
+    int i=0;
+    char intenchar[5];
+
+    while(texte[i] != '\0'){
+        TXdata(texte[i]);
+        i++;
+    }
+    TXdata(' ');
+    itoad(valeur, &intenchar, 10);//conversion d'un entier en chaine
+
+    TXdata('\0');//fin
+}
+
+
 /**int slotuart(int slotnumber){//decodage de la trame uart
     int i;
     int var=0;
@@ -151,82 +255,3 @@ int substringsemicolonuart(int debut,int fin){//conversion d'une donnée de la tr
     var = atoi(subsstr);
     return var;
 }**/
-
-
-void raztrameuart(void){//raz de la trame uart
-    int index=0;
-    for(index=0;index<TAILLETRAMEUART;index++){//ini de la trame rx
-        rxtrameuart[index]=" ";
-    }
-    indexrxbufferuart=0;
-}
-void InitUART(void)//initialisation de la com uart
-{
-    P1SEL |= (BIT1 | BIT2);                     // P1.1 = RXD, P1.2=TXD
-        P1SEL2 |= (BIT1 | BIT2);                    // P1.1 = RXD, P1.2=TXD
-        UCA0CTL1 = UCSWRST;                         // SOFTWARE RESET
-        UCA0CTL1 |= UCSSEL_3;                       // SMCLK (2 - 3)
-
-        UCA0CTL0 &= ~(UCPEN | UCMSB | UCDORM);
-        UCA0CTL0 &= ~(UC7BIT | UCSPB | UCMODE_3 | UCSYNC); // dta:8 stop:1 usci_mode3uartmode
-        UCA0CTL1 &= ~UCSWRST;                   // **Initialize USCI state machine**
-
-        UCA0BR0 = 104;                              // 1MHz, OSC16, 9600 (8Mhz : 52) : 8/115k
-        UCA0BR1 = 0;                                // 1MHz, OSC16, 9600
-        UCA0MCTL = 10;
-
-        /* Enable USCI_A0 RX interrupt */
-        IE2 |= UCA0RXIE;
-
-        raztrameuart();//ini de la trame
-        indexrxbufferuart=0;
-
-       // volatile char test[5];
-        //volatile int nombtre[5];
-        //forge(2,'a', &nombtre, &test);
-}
-
-void TXdata( unsigned char c )//envoi d'un caractère via l'uart
-{
-    P1OUT ^= BIT6;//debug
-    while (!(IFG2&UCA0TXIFG));  // USCI_A0 TX buffer ready?
-    UCA0TXBUF = c;              // TX -> RXed character
-}
-
-void pong(void){
-    unsigned int i;
-    char pong[] = "pong";
-    for(i=0;i<5;i++){
-        TXdata(pong[i]);
-    }
-
-}
-
-void ack(void){
-    unsigned int i;
-    char ack[] = "ack";
-    for(i=0;i<4;i++){
-        TXdata(ack[i]);
-    }
-}
-void nak(void){
-    unsigned int i;
-    char nak[] = "nak";
-    for(i=0;i<4;i++){
-        TXdata(nak[i]);
-    }
-}
-
-void debug(char *texte, int valeur){
-    int i=0;
-    char intenchar[5];
-
-    while(texte[i] != '\0'){
-        TXdata(texte[i]);
-        i++;
-    }
-    TXdata(' ');
-    itoad(valeur, &intenchar, 10);//conversion d'un entier en chaine
-
-    TXdata('\0');//fin
-}

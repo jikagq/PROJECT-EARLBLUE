@@ -21,6 +21,7 @@ __interrupt void universal_serial_interface(void)//interruption spi rx
 {
     unsigned char c;
     c = USISRL;
+    //SendSpislave(c);
         if(c == '\0'){//fin de la trame
             spirxtrame[spirxbuffer]=c;
             anvilspi();
@@ -28,25 +29,35 @@ __interrupt void universal_serial_interface(void)//interruption spi rx
            spirxtrame[spirxbuffer]=c;
            spirxbuffer++;
         }
-     USISRL = P1IN;
+    USISRL = P1IN;
      USICNT = 8;
 }
 void anvilspi(void){//gestion des trames forge
     char action;
 
     action=spirxtrame[2];
+
+    int i;
+    char a;
+
+    a=spirxtrame[0];
+    a=spirxtrame[1];
+    a=spirxtrame[2];
+    a=spirxtrame[3];
+    a=spirxtrame[4];
+
     switch(action){
           case 'l':{
                 ledparam();
-                raztrame(&spirxtrame);
+                //raztramespi();
                 break;
                 }
           default :{
-                raztrame(&spirxtrame);
+                //raztramespi();
                 break;
                 }
           }
-    raztrame(&spirxtrame);
+    raztramespi();
 }
 
 void ledparam(void){
@@ -81,7 +92,14 @@ void initSPI(void){
     USISRL = P1IN;                        // init-load data p409
     USICNT = 8;                           // init-load counter nb de bit p408
 
-    _BIS_SR(LPM0_bits + GIE);             // Enter LPM0 w/ interrupt
-
+    //_BIS_SR(LPM0_bits + GIE);             // Enter LPM0 w/ interrupt
+    _BIS_SR( GIE);             // Enter LPM0 w/ interrupt
 }
 
+void raztramespi(void){//raz trame spi
+    int index=0;
+     for(index=0;index<TAILLETRAME;index++){//ini de la trame rx
+         spirxtrame[index]='\0';
+     }
+     spirxbuffer=0;
+}
