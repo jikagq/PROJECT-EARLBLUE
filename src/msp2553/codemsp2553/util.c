@@ -12,8 +12,12 @@
 #include "util.h"
 #include "uart.h"
 #include "spi2553.h"
+#include "drivermoteur.h"
 
-
+void changemode(void){
+    stop();
+    mode=slot(1,&rxtrameuart);
+}
 
 void raztrame(char *trame){//raz trame uart ou spi
     int index=0;

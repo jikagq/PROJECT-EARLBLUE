@@ -24,6 +24,6 @@ int forge(int nbvaleur,char type, int *dataint, char *trameaenvoyer);//encodage
 int slot(int slotnumber,char *trameadecoder);//decodage
 int substringsemicolon(int debut,int fin,char *trame);
 
-
+void changemode(void);
 
 #endif /* UTIL_H_ */

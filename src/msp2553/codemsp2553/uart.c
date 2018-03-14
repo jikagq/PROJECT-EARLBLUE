@@ -107,9 +107,10 @@ void anviluart(void){//gestion des trames forge venant du pc puis apres du bluto
                 TXdata(0x06);
                 break;
                 }
-          case 'm':{
+          case 'm':{ //mode
+                TXdata(0x06);//ack=0x06 ascii
+                changemode();
                 raztrameuart();
-                TXdata(0x06);
                 break;
                 }
           case 't':{
@@ -126,8 +127,6 @@ void anviluart(void){//gestion des trames forge venant du pc puis apres du bluto
           }
     raztrameuart();
 }
-
-
 void raztrameuart(void){//raz de la trame uart
     int index=0;
     for(index=0;index<TAILLETRAMEUART;index++){//ini de la trame rx

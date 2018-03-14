@@ -54,9 +54,11 @@ do{
         printf("p: changer le port\n");
         printf("c: verif com(ping)\n");
         printf("l: allumer la led\n");
+        printf("!: commande manuel\n");
         printf("t: forge manuelle trame (echo)\n");
         printf("y: ledspi\n");
-        printf("m: moniteur serie\n");
+        printf("o: moniteur serie\n");
+        printf("m: change mode\n");
         printf("f: changer la frequence de cli\n");
         printf("i: reinini\n");
         printf("d: disconnect\n");
@@ -73,10 +75,15 @@ do{
         ping();
         break;
         }
+  case 'm':{//ping
+        changemode();
+        sendtrameuart(&trametx);
+        break;
+        }
   case 'e':{
         break;//quiter
         }
-  case 'm':{
+  case 'o':{
         moniteur();
         break;//quiter
         }
@@ -111,5 +118,6 @@ do{
         break;
         }
   }
+  raztrame();
 }while(choix != 'e');
 }

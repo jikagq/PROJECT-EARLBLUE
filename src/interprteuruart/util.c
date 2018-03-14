@@ -93,9 +93,11 @@ void transmit(char c){
 void sendtrameuart(char *trametx){
     int i=0;
     while(trametx[i] != '\0'){
+            //printf(" %c:%d",trametx[i],i);
         transmit(trametx[i]);
         i++;
     }
+    //printf(" %c:%d",trametx[i],i);
     transmit(trametx[i+1]);
     raztrame();
 }

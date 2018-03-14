@@ -17,11 +17,9 @@
 volatile unsigned int i;
 
 int onoffled1=0;
-int tpsh=1000;
-int tpsb=500;
-int compteurtrameinutile=0;
+int freq=1000;
 
-
+int mode=0;
 
 void ledspi(void)// led 2231 par spi
 {
@@ -38,13 +36,13 @@ void ledspi(void)// led 2231 par spi
 }
 
 
-void led(void){//led 2553
+void led(void){//led 2553 avec anvil()
     onoffled1 = slot(1,&rxtrameuart);//recupération des variable en entier arrivant de l'uart
-    tpsh = tpsb = slot(2,&rxtrameuart);
+    freq = slot(2,&rxtrameuart);
 }
 
 
-void led1(void){//led 2553
+void led1(void){//led 2553 avec interpreteur()
    if(rxtrameuart[1]=='1'){
        ack();
        onoffled1=1;
@@ -105,9 +103,9 @@ void main(void)
     while(1){
         if(onoffled1 == 1){
             P1OUT |= BIT0;
-            delay(tpsh);
+            delay(freq);
             P1OUT &= ~BIT0;
-            delay(tpsb);
+            delay(freq);
         }else{
            P1OUT &= ~BIT0;
         }
@@ -120,6 +118,12 @@ void main(void)
         //sendspichar('1');
         //__delay_cycles(75);
         //sendspichar('\0');
+
+        if(mode==1){
+        //lance les fonctions de detections dobstables
+        }else{
+        //on fait rien on attend l'interpreteur
+        }
     }
 }
 

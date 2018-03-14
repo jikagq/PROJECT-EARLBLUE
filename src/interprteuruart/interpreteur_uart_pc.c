@@ -35,7 +35,7 @@ void forgemanuel(char *trametx){//forgage d'une trame à envoyer 0:type;1->14data
 ////////////////////////////////mettre le msp
     printf("-> ");
    for(i=0;i<TAILLETRAME;i++){//relecture afficage
-        printf("%c",trametx[i]);
+        //printf("%c",trametx[i]);
     }
 }
 void frequence(void){
@@ -87,4 +87,33 @@ void led(void){
 
     while ((onoffled1 = getchar()) != '\n' && onoffled1 != EOF);
     receive();
+}
+void changemode(void){
+    int mode=0;//0->manuel 1->auto
+    int i;
+
+
+    do{
+        printf("0 manuel, 1 auto\n");
+        scanf("%d", &mode);
+    }while((mode != 0) && (mode != 1));
+
+    trametx[0]='f';//1er caractere
+    trametx[1]='1';
+    trametx[2]='m';
+    trametx[3]=';';
+
+    if(mode == 1){
+        trametx[4]='1';
+    }else{
+        trametx[4]='0';
+    }
+    trametx[5]='\0';
+
+    printf("-> ");
+    for(i=0;i<6;i++){
+        printf("%c%d\n",trametx[i],i);
+    }
+    printf("\n");
+    while ((mode = getchar()) != '\n' && mode != EOF);
 }
