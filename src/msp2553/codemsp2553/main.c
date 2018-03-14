@@ -86,6 +86,12 @@ void main(void)
     Init_SPI();//!attention bug avec le spi!
     //testmoteur();
     initmoteur();
+    //avancer();
+    //delay(1000);
+    //stop();//ici on detrect l'obstavcle
+    //gaucheauto(50);//on tourne pour esquiver
+
+
 
     //int donnetest[] ={1,200};
 
