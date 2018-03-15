@@ -17,6 +17,8 @@ int main(void)
 	WDTCTL = WDTPW | WDTHOLD;	// stop watchdog timer
 	P1DIR |= BIT0;
 	initSPI();
+	initpwmservo();
+
 	//_BIS_SR( GIE);             // Enter LPM0 w/ interrupt
 	do{
 	    if(etat==1){

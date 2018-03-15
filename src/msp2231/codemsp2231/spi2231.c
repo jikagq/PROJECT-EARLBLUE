@@ -29,7 +29,7 @@ __interrupt void universal_serial_interface(void)//interruption spi rx
            spirxtrame[spirxbuffer]=c;
            spirxbuffer++;
         }
-    USISRL = P1IN;
+     USISRL = P1IN;
      USICNT = 8;
 }
 void anvilspi(void){//gestion des trames forge
@@ -50,6 +50,11 @@ void anvilspi(void){//gestion des trames forge
           case 'l':{
                 ledparam();
                 //raztramespi();
+                break;
+                }
+          case 's':{
+              position();
+
                 break;
                 }
           default :{

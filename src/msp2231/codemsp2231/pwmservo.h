@@ -9,9 +9,9 @@
 #ifndef PWMSERVO_H_
 #define PWMSERVO_H_
 
-int Conv_angle_position (int pas);
-void initpwmservo(void);
 
+void initpwmservo(void);
+void  position(void);
 
 
 #endif /* PWMSERVO_H_ */
