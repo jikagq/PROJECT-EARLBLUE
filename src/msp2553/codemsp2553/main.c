@@ -1,10 +1,10 @@
-//------------------------------------------------------------------------------
-// msp2553 uart
-//
-//
-//
-//
-//------------------------------------------------------------------------------
+/*
+ * code principal msp2553
+ *
+ *
+ *
+ *
+ */
 #include <msp430g2553.h>
 #include <msp430.h>
 
@@ -17,15 +17,15 @@
 
 volatile unsigned int i;
 
-int onoffled1=0;
+int onoffled1=0;//led 2553
 int freq=1000;
 
-int mode=0;
+int mode=0;//mode auto/manu
 
 void ledspi(void)// led 2231 par spi
 {
     int dataint[NOMBREDEVALEURSPI];
-    //!!!utilisation des fonction generique dans util.c
+    //!!!utilisation des fonction generique dans util.c, sauf raz ?
 
     dataint[0] = slot(1,&rxtrameuart);//recupération des variable en entier arrivant de l'uart
     dataint[1] = slot(2,&rxtrameuart);// préparation des données à transmettre en spi
@@ -45,7 +45,7 @@ void led(void){//led 2553 avec anvil()
 
 void led1(void){//led 2553 avec interpreteur()
    if(rxtrameuart[1]=='1'){
-       ack();
+       ack();//renvoi d'un ack au pc
        onoffled1=1;
    }
    if(rxtrameuart[1]=='0'){
@@ -104,7 +104,7 @@ void main(void)
 
 
     while(1){
-        if(onoffled1 == 1){
+        if(onoffled1 == 1){//cli led
             P1OUT |= BIT0;
             delay(freq);
             P1OUT &= ~BIT0;
@@ -122,15 +122,17 @@ void main(void)
         //__delay_cycles(75);
         //sendspichar('\0');
 
-        if(mode==1){
-        //lance les fonctions de detections dobstables
-            avance();
+
+//////////////////////pas testé ni fini
+        if(mode==1){//mode auto
+        //lance les fonctions de detections d obstables
+            avancer();
             //if(obstacle == 1)obstacle ? appel fonction detection obstavle renvoi 1 si y en a un
             {
                 stop();
-                rotation = scanner();
+                rotation = scanner();//scan de l env
 
-                switch(rotation){
+                switch(rotation){//valeurs à modifier
                 case 1:{
                     gaucheauto(50);
                     break;
@@ -172,6 +174,10 @@ void main(void)
                      droiteauto(50);
                      break;
                      }
+                 case 10:{
+                     droiteauto(50);
+                     break;
+                     }
                  default :{
                      stop();
                      break;
@@ -182,10 +188,13 @@ void main(void)
         }else{
             avancer();
         }
+        //////////////////////
     }
 }
 
 
-
+/*
+ * 0101010001100101011000010110110100100000010100110100101101000110
+ */
 
 

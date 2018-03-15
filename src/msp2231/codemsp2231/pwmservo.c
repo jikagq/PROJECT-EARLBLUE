@@ -20,16 +20,16 @@
 #include "spi2231.h"
 
 
-
-void  position(void){
+///////////pas testé
+void  position(void){//selection position du servomoteur
     int rotation;
-   rotation = slot(1,&spirxtrame);
+   rotation = slot(1,&spirxtrame);//recupération de la 1er valeur dans la trame spi reçu
 
 
-    switch(rotation){
+    switch(rotation){//10 positions du servo
                     case 1:{
                         TACCR1 = 500;
-                        delay (2000);
+                        delay (2000);// pourquoi des delais ?
                         TACCR1 = 0;
                         break;
                            }
@@ -98,7 +98,7 @@ void  position(void){
                          }
                     }
 }
-
+/////////////
 void initpwmservo(void) {
 
 

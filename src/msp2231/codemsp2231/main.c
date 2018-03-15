@@ -1,5 +1,9 @@
-/**
- * main.c
+/*
+ * code principal msp2231
+ *
+ *
+ *
+ *
  */
 
 #include <msp430.h> 
@@ -9,8 +13,8 @@
 #include "pwmservo.h"
 #include "spi2231.h"
 
-int freq=500;
-int etat=1;
+int freq=500;//led 2231
+int etat=1;//si la led doit cli
 
 int main(void)
 {
@@ -31,3 +35,7 @@ int main(void)
 
 	return 0;
 }
+
+/*
+ * 0101010001100101011000010110110100100000010100110100101101000110
+ */

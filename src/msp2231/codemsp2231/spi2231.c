@@ -12,47 +12,50 @@
 #include "pwmservo.h"
 #include "spi2231.h"
 
+/*
+ * pense à ajouter le retour du pont spi
+ */
 
-volatile int unsigned spirxbuffer=0;
-volatile char spirxtrame[TAILLETRAMESPI];
+volatile int unsigned spirxbuffer=0;//buffer de reception
+volatile char spirxtrame[TAILLETRAMESPI];//tableau de reception def 16
 
 #pragma vector=USI_VECTOR
 __interrupt void universal_serial_interface(void)//interruption spi rx
 {
     unsigned char c;
-    c = USISRL;
+    c = USISRL;//incomming carac
     //SendSpislave(c);
         if(c == '\0'){//fin de la trame
             spirxtrame[spirxbuffer]=c;
             anvilspi();
         }else{//sinon on ajoute le caractaire à la chaine
-           spirxtrame[spirxbuffer]=c;
-           spirxbuffer++;
+           spirxtrame[spirxbuffer]=c;//tant que y a pas la fin de trame ecriture dans le tableau
+           spirxbuffer++;//potentiellment faut ajouter une secu ?
         }
-     USISRL = P1IN;
-     USICNT = 8;
+     USISRL = P1IN;// ?
+     USICNT = 8;//raz compteur caractèrre
 }
-void anvilspi(void){//gestion des trames forge
+void anvilspi(void){//interpreteur des trames forge
     char action;
 
-    action=spirxtrame[2];
+    action=spirxtrame[2];//le 3eme char correspond à l'action à effectuer
 
-    int i;
-    char a;
+
+    /**char a;
 
     a=spirxtrame[0];
     a=spirxtrame[1];
     a=spirxtrame[2];
     a=spirxtrame[3];
-    a=spirxtrame[4];
+    a=spirxtrame[4];**/
 
     switch(action){
           case 'l':{
-                ledparam();
+                ledparam();//cli led + freq 2231
                 //raztramespi();
                 break;
                 }
-          case 's':{
+          case 's':{//modification de l'angle du servo
               position();
 
                 break;
@@ -65,24 +68,26 @@ void anvilspi(void){//gestion des trames forge
     raztramespi();
 }
 
-void ledparam(void){
+void ledparam(void){//modification des var globales liées à la led du 2231
 
-    etat = slot(1,&spirxtrame);
-    freq = slot(2,&spirxtrame);
+    etat = slot(1,&spirxtrame);//recupération de l entier contenu dans le slot 1 de la trame spi
+    freq = slot(2,&spirxtrame);//recupération de l entier contenu dans le slot 2 de la trame spi
 
 }
-void SendSpislave(char c){
+//////////////pas testé
+void SendSpislave(char c){//envoi d'un char en spi
 
     USISRL = c;
     USICNT = 8;
 }
-void SendSpitrameslave(char *data){
+void SendSpitrameslave(char *data){//envoi d'une chaine/trame en spi
     int i =0;
     while(data != '\0'){
         SendSpislave(data[i]);
         i++;
     }
 }
+//////////////
 void initSPI(void){
     P1OUT =  0x10;                        // P1.4 set, else reset
     P1REN |= 0x10;                        // P1.4 pullup
@@ -98,13 +103,13 @@ void initSPI(void){
     USICNT = 8;                           // init-load counter nb de bit p408
 
     //_BIS_SR(LPM0_bits + GIE);             // Enter LPM0 w/ interrupt
-    _BIS_SR( GIE);             // Enter LPM0 w/ interrupt
+    _BIS_SR( GIE);             //lpm0_bits bloquait le programme ?
 }
 
 void raztramespi(void){//raz trame spi
     int index=0;
-     for(index=0;index<TAILLETRAME;index++){//ini de la trame rx
+     for(index=0;index<TAILLETRAME;index++){//reini de la trame rx
          spirxtrame[index]='\0';
      }
-     spirxbuffer=0;
+     spirxbuffer=0;//raz buff
 }

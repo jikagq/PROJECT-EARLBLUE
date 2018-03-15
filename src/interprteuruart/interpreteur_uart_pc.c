@@ -6,25 +6,25 @@
 #include "interpreteur_uart_micro.h"
 #include "interpreteur_uart_pc.h"
 #include "util.h"
-
+//!debug//
 void forgemanuel(char *trametx){//forgage d'une trame à envoyer 0:type;1->14data;15 fin trame '\0'
     char c='a';
     int i;
     int fin=0;
     trametx[0]='f';//indic que c'est une trame forge
-
+    //apres on met se qu'ont veux pour tester
     printf("entrez des caractere %d delimier par ; si besoin * termine la trame\n",TAILLETRAME );
     for(i=1;i<TAILLETRAME-1;i++){//slot 0 = type de trame +carc de fin '\0'
         if(fin==1){//fin demandé par l'utilisateur
-            trametx[i]='\0';
+            trametx[i]='\0';//zjout de la fin de trame
         }else{
             printf("> ");
             scanf("%c", &c);
-            if(c=='*'){
-                fin=1;
+            if(c=='*'){//'*' indqiue que l'utilisateur a fini d'ecrire
+                fin=1;//quite le tableau
             }else{
                 trametx[i]=c;
-                while ((c = getchar()) != '\n' && c != EOF);
+                while ((c = getchar()) != '\n' && c != EOF);//avant j'en avait pas besoin
             }
 
         }
@@ -35,10 +35,10 @@ void forgemanuel(char *trametx){//forgage d'une trame à envoyer 0:type;1->14data
 ////////////////////////////////mettre le msp
     printf("-> ");
    for(i=0;i<TAILLETRAME;i++){//relecture afficage
-        //printf("%c",trametx[i]);
+        printf("%c",trametx[i]);
     }
 }
-void frequence(void){
+void frequence(void){//ne sert plus
     int tpsh=1000;
     int tpsb=1000;
     int freq;
@@ -63,7 +63,7 @@ void frequence(void){
 
 
 }
-void led(void){
+void led(void){//alume la led avec les vielles trames
     int onoffled1=0;
     int i=0;
     do{
@@ -88,10 +88,9 @@ void led(void){
     while ((onoffled1 = getchar()) != '\n' && onoffled1 != EOF);
     receive();
 }
-void changemode(void){
+void changemode(void){//pas tester
     int mode=0;//0->manuel 1->auto
     int i;
-
 
     do{
         printf("0 manuel, 1 auto\n");
@@ -104,7 +103,7 @@ void changemode(void){
     trametx[3]=';';
 
     if(mode == 1){
-        trametx[4]='1';
+        trametx[4]='1';//selection mode
     }else{
         trametx[4]='0';
     }

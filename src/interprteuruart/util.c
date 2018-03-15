@@ -7,7 +7,7 @@
 #include "interpreteur_uart_pc.h"
 #include "util.h"
 
-void ledspi(void){
+void ledspi(void){// pas fini allume la led du 2231
     int c;
     int choixled=1;
     int etat=0;

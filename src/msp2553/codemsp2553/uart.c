@@ -16,26 +16,26 @@
 #include "scan.h"
 
 
-volatile int unsigned indexrxbufferuart=0;
-volatile char rxtrameuart[TAILLETRAMEUART];
+volatile int unsigned indexrxbufferuart=0;//buffer rx uart
+volatile char rxtrameuart[TAILLETRAMEUART];//trame rx recu
 
-#pragma vector=USCIAB0RX_VECTOR//reception d'une trame
+#pragma vector=USCIAB0RX_VECTOR//reception d'une trame uart
 __interrupt void USCI0RX_ISR(void)//interruption permettant de recevoir un cararctere et de l'ajpouter au buffer
 {
     unsigned char c;
-    c = UCA0RXBUF;
+    c = UCA0RXBUF;//lecture du registre
     if(c == '\0'){//fin de la trame
-        rxtrameuart[indexrxbufferuart]=c;
+        rxtrameuart[indexrxbufferuart]=c;//dernier char
         if(rxtrameuart[0]=='f'){//trame forge -> parser
-            anviluart();
+            anviluart();//nouveau system avec forge
         }else{
-            interpreteuruart();
+            interpreteuruart();//ancien system
         }
     }else{//sinon on ajoute le caractaire Ã  la chaine
-       rxtrameuart[indexrxbufferuart]=c;
-       indexrxbufferuart++;
+       rxtrameuart[indexrxbufferuart]=c;//tant que c'est pas la fin ajout au tableau
+       indexrxbufferuart++;//deplacement du curseur
     }
-
+//manque une secu
 }
 void interpreteuruart(void){//analyse des commandes venant de codeblock en mode interpreteur (old)
    char rxcar;
@@ -47,18 +47,18 @@ void interpreteuruart(void){//analyse des commandes venant de codeblock en mode 
             raztrameuart();
             break;
             }
-      case 'L':{
+      case 'L':{//led du 2553
             led1();
             raztrameuart();
             break;
             }
-      case 't':{//bypass hasardeux
+      case 't':{//bypass hasardeux dont l'effet est inconu
             anviluart();
             raztrameuart();
             break;
             }
       default :{
-            nak();
+            nak();//si il trame inconue renvoi nak
             raztrameuart();
             break;
             }
@@ -128,7 +128,7 @@ void anviluart(void){//gestion des trames forge venant du pc puis apres du bluto
                 break;
                 }
           }
-    raztrameuart();
+    raztrameuart();//inutile ?
 }
 void raztrameuart(void){//raz de la trame uart
     int index=0;
@@ -165,11 +165,11 @@ void InitUART(void)//initialisation de la com uart
 
 void TXdata( unsigned char c )//envoi d'un caractère via l'uart
 {
-    //P1OUT ^= BIT6;//debug
     while (!(IFG2&UCA0TXIFG));  // USCI_A0 TX buffer ready?
     UCA0TXBUF = c;              // TX -> RXed character
 }
-
+//manque une fonction chaine tx
+////à modifier, utilise la table ascii
 void pong(void){
     unsigned int i;
     char pong[] = "pong";
@@ -193,8 +193,8 @@ void nak(void){
         TXdata(nak[i]);
     }
 }
-
-void debug(char *texte, int valeur){
+///////
+void debug(char *texte, int valeur){//marche pas terrible
     int i=0;
     char intenchar[5];
 
@@ -208,6 +208,7 @@ void debug(char *texte, int valeur){
     TXdata('\0');//fin
 }
 
+//vieux trucs
 
 /**int slotuart(int slotnumber){//decodage de la trame uart
     int i;

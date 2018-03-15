@@ -1,6 +1,6 @@
 /***********************************************/
 /* to do list: -gerer l'overflow et faire repeter la trame*/
-/*
+/* crc en fin de trame
 /*
 /*
 /**********************************************/
@@ -21,7 +21,7 @@ int main(void){
     char caracAtransmettre;
     inicom();
     i=0;
-    menu();
+    menu();//affichage du menu
 	CloseHandle(hCom);					//fermeture du gestionnaire de port (jamais atteint !)
     return 0;
 }
@@ -45,7 +45,7 @@ do{
   printf("\n> ");
   scanf("%c", &c);
   choix=c;
-  while ((c = getchar()) != '\n' && c != EOF);
+  while ((c = getchar()) != '\n' && c != EOF);//avant j'en avait pas besoin ?
 
   switch(choix){
    case 'h':{//aide

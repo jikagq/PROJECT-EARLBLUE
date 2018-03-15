@@ -16,10 +16,9 @@
 #include "drivermoteur.h"
 #include "scan.h"
 
-//ajouer les variables globales
 
-volatile char received_ch = 0;
-volatile char trametx_SPI[TAILLETRAMESPI];
+volatile char received_ch = 0;//buffer
+volatile char trametx_SPI[TAILLETRAMESPI];//trame spi à envoyer
 
 
 
@@ -49,23 +48,25 @@ void Init_SPI (void)
 
 	  __delay_cycles(75);
 }
-
-void send_SPI (char* trame_SPI)
+/*
+ * manque la reception qui se trouve quelque part sur mon autre pc
+ */
+void send_SPI (char* trame_SPI)//envoi du tableau
 {
     int i=0;
 
-    while(trame_SPI[i] != '\0'){
+    while(trame_SPI[i] != '\0'){//lecture du tab jusqu'a la fin de trame
         sendspichar(trame_SPI[i]);
         i++;
-        __delay_cycles(75);
+        __delay_cycles(75);//attente entre 2 transmissions
     }
     i++;
-    sendspichar(trame_SPI[i]);
+    sendspichar(trame_SPI[i]);//dernier char
 
 
 }
 
-void sendspichar(char c){
+void sendspichar(char c){//envoi d'1 seul char
     P1OUT &= ~BIT4;//selection de l'esclave cs low
     while (!(IFG2 & UCB0TXIFG));
     UCB0TXBUF = c;
