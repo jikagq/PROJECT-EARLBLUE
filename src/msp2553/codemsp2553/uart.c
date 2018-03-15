@@ -12,6 +12,9 @@
 #include "util.h"
 #include "uart.h"
 #include "spi2553.h"
+#include "drivermoteur.h"
+#include "scan.h"
+
 
 volatile int unsigned indexrxbufferuart=0;
 volatile char rxtrameuart[TAILLETRAMEUART];

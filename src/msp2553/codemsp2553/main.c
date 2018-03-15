@@ -13,6 +13,7 @@
 #include "uart.h"
 #include "spi2553.h"
 #include "drivermoteur.h"
+#include "scan.h"
 
 volatile unsigned int i;
 
@@ -65,6 +66,8 @@ void led1(void){//led 2553 avec interpreteur()
 
 void main(void)
 {
+    int rotation;
+
     WDTCTL = WDTPW + WDTHOLD;   // Stop WDT
 
 
@@ -88,7 +91,7 @@ void main(void)
     //delay(1000);
     //stop();//ici on detrect l'obstavcle
     //gaucheauto(50);//on tourne pour esquiver
-
+    //droiteauto(50);
 
 
     //int donnetest[] ={1,200};
@@ -121,8 +124,63 @@ void main(void)
 
         if(mode==1){
         //lance les fonctions de detections dobstables
+            avance();
+            //if(obstacle == 1)obstacle ? appel fonction detection obstavle renvoi 1 si y en a un
+            {
+                stop();
+                rotation = scanner();
+
+                switch(rotation){
+                case 1:{
+                    gaucheauto(50);
+                    break;
+                       }
+
+                case 2:{
+                    gaucheauto(50);
+                    break;
+                       }
+                case 3:{
+                    gaucheauto(50);
+                    break;
+                     }
+
+                 case 4:{
+                     gaucheauto(50);
+                     break;
+                     }
+                 case 5:{
+                     avancer();
+                     break;
+                     }
+
+                 case 6:{
+                     droiteauto(50);
+                     break;
+                     }
+
+                 case 7:{
+                     droiteauto(50);
+                     break;
+                     }
+
+                 case 8:{
+                     droiteauto(50);
+                     break;
+                     }
+                 case 9:{
+                     droiteauto(50);
+                     break;
+                     }
+                 default :{
+                     stop();
+                     break;
+                     }
+                }
+                avancer();
+            }
         }else{
-        //on fait rien on attend l'interpreteur
+            avancer();
         }
     }
 }

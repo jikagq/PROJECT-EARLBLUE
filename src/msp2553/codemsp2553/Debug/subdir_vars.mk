@@ -11,6 +11,7 @@ CMD_SRCS += \
 C_SRCS += \
 ../drivermoteur.c \
 ../main.c \
+../scan.c \
 ../spi2553.c \
 ../uart.c \
 ../util.c 
@@ -18,6 +19,7 @@ C_SRCS += \
 C_DEPS += \
 ./drivermoteur.d \
 ./main.d \
+./scan.d \
 ./spi2553.d \
 ./uart.d \
 ./util.d 
@@ -25,6 +27,7 @@ C_DEPS += \
 OBJS += \
 ./drivermoteur.obj \
 ./main.obj \
+./scan.obj \
 ./spi2553.obj \
 ./uart.obj \
 ./util.obj 
@@ -32,6 +35,7 @@ OBJS += \
 OBJS__QUOTED += \
 "drivermoteur.obj" \
 "main.obj" \
+"scan.obj" \
 "spi2553.obj" \
 "uart.obj" \
 "util.obj" 
@@ -39,6 +43,7 @@ OBJS__QUOTED += \
 C_DEPS__QUOTED += \
 "drivermoteur.d" \
 "main.d" \
+"scan.d" \
 "spi2553.d" \
 "uart.d" \
 "util.d" 
@@ -46,6 +51,7 @@ C_DEPS__QUOTED += \
 C_SRCS__QUOTED += \
 "../drivermoteur.c" \
 "../main.c" \
+"../scan.c" \
 "../spi2553.c" \
 "../uart.c" \
 "../util.c" 

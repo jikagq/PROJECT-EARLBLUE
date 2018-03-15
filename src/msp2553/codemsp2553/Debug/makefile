@@ -12,6 +12,7 @@ GEN_CMDS__FLAG :=
 ORDERED_OBJS += \
 "./drivermoteur.obj" \
 "./main.obj" \
+"./scan.obj" \
 "./spi2553.obj" \
 "./uart.obj" \
 "./util.obj" \
@@ -157,8 +158,8 @@ codemsp2553.hex: $(EXE_OUTPUTS)
 # Other Targets
 clean:
 	-$(RM) $(BIN_OUTPUTS__QUOTED)$(EXE_OUTPUTS__QUOTED)
-	-$(RM) "drivermoteur.obj" "main.obj" "spi2553.obj" "uart.obj" "util.obj" 
-	-$(RM) "drivermoteur.d" "main.d" "spi2553.d" "uart.d" "util.d" 
+	-$(RM) "drivermoteur.obj" "main.obj" "scan.obj" "spi2553.obj" "uart.obj" "util.obj" 
+	-$(RM) "drivermoteur.d" "main.d" "scan.d" "spi2553.d" "uart.d" "util.d" 
 	-@echo 'Finished clean'
 	-@echo ' '
 

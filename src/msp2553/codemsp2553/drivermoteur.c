@@ -13,6 +13,8 @@
 #include "uart.h"
 #include "spi2553.h"
 #include "drivermoteur.h"
+#include "scan.h"
+
 
 volatile int valgauche=0;
 volatile int valdroite=0;
@@ -110,7 +112,7 @@ void droiteauto(int pas){
     __disable_interrupt();
 }
 /*
- * 45->90°
+ * 50->90°
  * 90->180°
  */
 void gaucheauto(int pas){
