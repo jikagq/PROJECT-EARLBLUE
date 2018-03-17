@@ -15,17 +15,16 @@
 #include "ADC.h"
 #include "capteurInfrarouge.h"
 
-    /* 1:0°
-     * 2:
-     * 3:
-     * 4:
-     * 5:
-     * 6:
-     * 7:
-     * 8:
-     * 9:
-     * 10:180°
-     */
+/*     1:0
+         * 2:22.5
+         * 3:45
+         * 4:67.5
+         * 5:90
+         * 6:112.5
+         * 7:135
+         * 8:157.5
+         * 9:180
+         */
 ///////////pas testé
 int scanner(void){//scan de la distance la plus grande
     int distance;
@@ -37,12 +36,12 @@ int scanner(void){//scan de la distance la plus grande
     int i=0;
 
     positionservo(1);//position 0°
-    delay(1000);
+    delay(5000);
 
-    for(i=1;i<11;i++){
+    for(i=1;i<10;i++){
 
         positionservo(i);
-        delay(500);
+        delay(1000);
         distance=aquisition();
         if(distancemax > distance){//tableaudistance[]=aquisition
             distancemax=distance;

@@ -11,7 +11,7 @@
 
 
 void initpwmservo(void);
-void  position(void);
+void  position(int r);
 
 
 #endif /* PWMSERVO_H_ */

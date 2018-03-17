@@ -64,7 +64,7 @@ void send_SPI (char* trame_SPI)//envoi du tableau
     i++;
     sendspichar(trame_SPI[i]);//dernier char
 
-
+    raztramespi();
 }
 
 void sendspichar(char c){//envoi d'1 seul char

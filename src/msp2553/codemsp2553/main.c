@@ -22,7 +22,7 @@ volatile unsigned int i;
 int onoffled1=0;//led 2553
 int freq=1000;
 
-int mode=1;//mode auto/manu
+int mode=0;//mode auto/manu
 
 void ledspi(void)// led 2231 par spi
 {
@@ -62,27 +62,33 @@ void led1(void){//led 2553 avec interpreteur()
 }
 
 
+void iniboard(void){
+    P1DIR = 0x00; // IN high z
+    P2DIR = 0x00; // IN
 
+    WDTCTL = WDTPW + WDTHOLD;   // Stop WDT
+
+
+        if(CALBC1_1MHZ==0xFF || CALDCO_1MHZ==0xFF)
+        {
+            __bis_SR_register(LPM4_bits); // Low Power Mode #trap on Error
+        }
+        else
+        {
+            // Factory parameters
+            BCSCTL1 = CALBC1_1MHZ;
+            DCOCTL = CALDCO_1MHZ;
+        }
+}
 
 
 
 void main(void)
 {
+    void iniboard(void);
     int rotation;
 
-    WDTCTL = WDTPW + WDTHOLD;   // Stop WDT
 
-
-    if(CALBC1_1MHZ==0xFF || CALDCO_1MHZ==0xFF)
-    {
-        __bis_SR_register(LPM4_bits); // Low Power Mode #trap on Error
-    }
-    else
-    {
-        // Factory parameters
-        BCSCTL1 = CALBC1_1MHZ;
-        DCOCTL = CALDCO_1MHZ;
-    }
 
 
     InitUART();
@@ -92,14 +98,8 @@ void main(void)
     ADC_init();
     initInfrarouge();
 
-    //avancer();
-    //delay(1000);
-    //stop();//ici on detrect l'obstavcle
-    //gaucheauto(50);//on tourne pour esquiver
-    //droiteauto(50);
 
-
-    //int donnetest[] ={1,200};
+    int donnetest[] ={1,200};
 
 
     __bis_SR_register(GIE); // interrupts enabled
@@ -118,19 +118,11 @@ void main(void)
            P1OUT &= ~BIT0;
         }
 
-        //forge(2,'l',&donnetest,&trametx_SPI);//forgage de la trame spi à transmettre
-        //send_SPI(&trametx_SPI);//envoi de la trame spi
-        //delay(1000);
-        //sendspichar('f');
-        //__delay_cycles(75);
-        //sendspichar('1');
-        //__delay_cycles(75);
-        //sendspichar('\0');
+        forge(2,'l',&donnetest,&trametx_SPI);//forgage de la trame spi à transmettre
+        send_SPI(&trametx_SPI);//envoi de la trame spi
+        delay(1000);
 
-        //ADC_Demarrer_conversion(3);
-        //a = ADC_Lire_resultat();
-       // obstacle ();
-        //detacteObstacleEtArreter();
+
 
 //////////////////////pas testé ni fini
         if(mode==1){//mode auto

@@ -35,6 +35,8 @@ __interrupt void universal_serial_interface(void)//interruption spi rx
      USISRL = P1IN;// ?
      USICNT = 8;//raz compteur caractèrre
 }
+
+
 void anvilspi(void){//interpreteur des trames forge
     char action;
 
@@ -56,7 +58,7 @@ void anvilspi(void){//interpreteur des trames forge
                 break;
                 }
           case 's':{//modification de l'angle du servo
-              position();
+                position(0);
 
                 break;
                 }

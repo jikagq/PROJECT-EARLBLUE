@@ -21,75 +21,61 @@
 
 
 ///////////pas testé
-void  position(void){//selection position du servomoteur
-    int rotation;
+void  position(int r){//selection position du servomoteur
+    int rotation=0;
    rotation = slot(1,&spirxtrame);//recupération de la 1er valeur dans la trame spi reçu
 
+    /*     1:0
+         * 2:22.5
+         * 3:45
+         * 4:67.5
+         * 5:90
+         * 6:112.5
+         * 7:135
+         * 8:157.5
+         * 9:180
+         */
 
-    switch(rotation){//10 positions du servo
+    switch(rotation){//9 positions du servo
                     case 1:{
                         TACCR1 = 500;
-                        //delay (2000);// pourquoi des delais ?
-                        TACCR1 = 0;
                         break;
                            }
 
                     case 2:{
-                        TACCR1 = 722;
-                        //delay (2000);
-                        TACCR1 = 0;
+                        TACCR1 = 750;
                         break;
                            }
                     case 3:{
-                        TACCR1 = 944;
-                        //delay (2000);
-                        TACCR1 = 0;
+                        TACCR1 = 1000;
                         break;
                          }
 
                      case 4:{
-                         TACCR1 = 1166;
-                         delay (2000);
-                         TACCR1 = 0;
+                         TACCR1 = 1250;
                          break;
                          }
                      case 5:{
-                         TACCR1 = 1388;
-                        // delay (2000);
-                         TACCR1 = 0;
+                         TACCR1 = 1500;
                          break;
                          }
 
                      case 6:{
-                         TACCR1 = 1611;
-                         //delay (2000);
-                         TACCR1 = 0;
+                         TACCR1 = 1750 ;
                          break;
                          }
 
                      case 7:{
-                         TACCR1 = 1833;
-                         //delay (2000);
-                         TACCR1 = 0;
+                         TACCR1 = 2000;
                          break;
                          }
 
                      case 8:{
-                         TACCR1 = 2055;
-                         //delay (2000);
-                         TACCR1 = 0;
+                         TACCR1 = 2250 ;
                          break;
                          }
                      case 9:{
-                         TACCR1 = 2277;
-                         //delay (2000);
-                         TACCR1 = 0;
-                         break;
-                         }
-                     case 10:{
                          TACCR1 = 2500;
-                         //delay (2000);
-                         TACCR1 = 0;
                          break;
                          }
                      default :{
@@ -102,9 +88,15 @@ void  position(void){//selection position du servomoteur
 void initpwmservo(void) {
 
 
-    P1DIR |= BIT2;                     //P1DIR BIT0 a 1 pour mettre output
-        P1SEL |= BIT2;      // selection fonction Timer1_A3.TA1
+        //P1DIR |= BIT6;
+        //P1SEL |= BIT6;
 
+        //sortie de la pwm sur p2.6 (xin)
+        P2SEL |= BIT6;//P2DIR BIT6 a 1 pour mettre output
+        P2DIR |= BIT6;// selection fonction Timer1_A3.TA1
+
+
+        BCSCTL3 |= (BIT5|BIT4);//D'apres la datasheet pour utiliser ta0.1 il faut que BCSCTL3.LFXT1Sx = 11
 
         TACTL = TASSEL_2 | ID_0; // source SMCLK pour le timer, mode UP, 2 times divider
         TACCTL1 |= OUTMOD_7; // activation mode de sortie 7 (PWM)
