@@ -14,13 +14,15 @@
 #include "spi2553.h"
 #include "drivermoteur.h"
 #include "scan.h"
+#include "ADC.h"
+#include "capteurInfrarouge.h"
 
 volatile unsigned int i;
 
 int onoffled1=0;//led 2553
 int freq=1000;
 
-int mode=0;//mode auto/manu
+int mode=1;//mode auto/manu
 
 void ledspi(void)// led 2231 par spi
 {
@@ -84,9 +86,12 @@ void main(void)
 
 
     InitUART();
-    Init_SPI();//!attention bug avec le spi!
+    Init_SPI();
     //testmoteur();
     initmoteur();
+    ADC_init();
+    initInfrarouge();
+
     //avancer();
     //delay(1000);
     //stop();//ici on detrect l'obstavcle
@@ -122,12 +127,16 @@ void main(void)
         //__delay_cycles(75);
         //sendspichar('\0');
 
+        //ADC_Demarrer_conversion(3);
+        //a = ADC_Lire_resultat();
+       // obstacle ();
+        //detacteObstacleEtArreter();
 
 //////////////////////pas testé ni fini
         if(mode==1){//mode auto
         //lance les fonctions de detections d obstables
             avancer();
-            //if(obstacle == 1)obstacle ? appel fonction detection obstavle renvoi 1 si y en a un
+            if(obstacle() == 1)//obstacle ? appel fonction detection obstavle renvoi 1 si y en a un
             {
                 stop();
                 rotation = scanner();//scan de l env

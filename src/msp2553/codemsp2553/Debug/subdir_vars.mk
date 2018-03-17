@@ -9,6 +9,8 @@ CMD_SRCS += \
 ../lnk_msp430g2553.cmd 
 
 C_SRCS += \
+../ADC.c \
+../capteurInfrarouge.c \
 ../drivermoteur.c \
 ../main.c \
 ../scan.c \
@@ -17,6 +19,8 @@ C_SRCS += \
 ../util.c 
 
 C_DEPS += \
+./ADC.d \
+./capteurInfrarouge.d \
 ./drivermoteur.d \
 ./main.d \
 ./scan.d \
@@ -25,6 +29,8 @@ C_DEPS += \
 ./util.d 
 
 OBJS += \
+./ADC.obj \
+./capteurInfrarouge.obj \
 ./drivermoteur.obj \
 ./main.obj \
 ./scan.obj \
@@ -33,6 +39,8 @@ OBJS += \
 ./util.obj 
 
 OBJS__QUOTED += \
+"ADC.obj" \
+"capteurInfrarouge.obj" \
 "drivermoteur.obj" \
 "main.obj" \
 "scan.obj" \
@@ -41,6 +49,8 @@ OBJS__QUOTED += \
 "util.obj" 
 
 C_DEPS__QUOTED += \
+"ADC.d" \
+"capteurInfrarouge.d" \
 "drivermoteur.d" \
 "main.d" \
 "scan.d" \
@@ -49,6 +59,8 @@ C_DEPS__QUOTED += \
 "util.d" 
 
 C_SRCS__QUOTED += \
+"../ADC.c" \
+"../capteurInfrarouge.c" \
 "../drivermoteur.c" \
 "../main.c" \
 "../scan.c" \

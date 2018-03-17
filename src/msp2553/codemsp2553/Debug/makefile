@@ -10,6 +10,8 @@ GEN_OPTS__FLAG :=
 GEN_CMDS__FLAG := 
 
 ORDERED_OBJS += \
+"./ADC.obj" \
+"./capteurInfrarouge.obj" \
 "./drivermoteur.obj" \
 "./main.obj" \
 "./scan.obj" \
@@ -158,8 +160,8 @@ codemsp2553.hex: $(EXE_OUTPUTS)
 # Other Targets
 clean:
 	-$(RM) $(BIN_OUTPUTS__QUOTED)$(EXE_OUTPUTS__QUOTED)
-	-$(RM) "drivermoteur.obj" "main.obj" "scan.obj" "spi2553.obj" "uart.obj" "util.obj" 
-	-$(RM) "drivermoteur.d" "main.d" "scan.d" "spi2553.d" "uart.d" "util.d" 
+	-$(RM) "ADC.obj" "capteurInfrarouge.obj" "drivermoteur.obj" "main.obj" "scan.obj" "spi2553.obj" "uart.obj" "util.obj" 
+	-$(RM) "ADC.d" "capteurInfrarouge.d" "drivermoteur.d" "main.d" "scan.d" "spi2553.d" "uart.d" "util.d" 
 	-@echo 'Finished clean'
 	-@echo ' '
 

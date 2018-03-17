@@ -15,7 +15,8 @@
 #include "spi2553.h"
 #include "drivermoteur.h"
 #include "scan.h"
-
+#include "ADC.h"
+#include "capteurInfrarouge.h"
 
 volatile char received_ch = 0;//buffer
 volatile char trametx_SPI[TAILLETRAMESPI];//trame spi à envoyer

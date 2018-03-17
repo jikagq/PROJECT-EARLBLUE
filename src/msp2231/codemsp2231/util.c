@@ -30,7 +30,7 @@ void raztrame(char *trame){//raz trame uart ou spi
 int forge(int nbvaleur,char type, int *dataint, char *trameaenvoyer){//nb de valeur à envoyer;type/action de la trame;tableau d'entier à transmèttre;tableau spi à envoyer
     int i=0;//indique le nombre de fois que l'ont doit mettre un entier dans la chaine à envoyer
     int cpt=0;//nombre de char correspondant au nombre de digits d'un nombre
-    int compteurtrame=4;//curseur du tableau à envoyer en spi
+    int compteurtrame=4;//curseur du tableau à envoyer en spi =4 car les données utile dans la trame commence ici
     char s[TAILLEVAL];//chaine contenant l'entier convertie en *char
     int flag_overflow=0;//donnée utile à transmettre plus grand que la taille max autorisé par une seule trame (pas implémenté)
 

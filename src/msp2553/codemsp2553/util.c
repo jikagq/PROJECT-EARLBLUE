@@ -14,6 +14,8 @@
 #include "spi2553.h"
 #include "drivermoteur.h"
 #include "scan.h"
+#include "ADC.h"
+#include "capteurInfrarouge.h"
 
 
 void changemode(void){//change le mode du robot

@@ -29,20 +29,20 @@ void  position(void){//selection position du servomoteur
     switch(rotation){//10 positions du servo
                     case 1:{
                         TACCR1 = 500;
-                        delay (2000);// pourquoi des delais ?
+                        //delay (2000);// pourquoi des delais ?
                         TACCR1 = 0;
                         break;
                            }
 
                     case 2:{
                         TACCR1 = 722;
-                        delay (2000);
+                        //delay (2000);
                         TACCR1 = 0;
                         break;
                            }
                     case 3:{
                         TACCR1 = 944;
-                        delay (2000);
+                        //delay (2000);
                         TACCR1 = 0;
                         break;
                          }
@@ -55,40 +55,40 @@ void  position(void){//selection position du servomoteur
                          }
                      case 5:{
                          TACCR1 = 1388;
-                         delay (2000);
+                        // delay (2000);
                          TACCR1 = 0;
                          break;
                          }
 
                      case 6:{
                          TACCR1 = 1611;
-                         delay (2000);
+                         //delay (2000);
                          TACCR1 = 0;
                          break;
                          }
 
                      case 7:{
                          TACCR1 = 1833;
-                         delay (2000);
+                         //delay (2000);
                          TACCR1 = 0;
                          break;
                          }
 
                      case 8:{
                          TACCR1 = 2055;
-                         delay (2000);
+                         //delay (2000);
                          TACCR1 = 0;
                          break;
                          }
                      case 9:{
                          TACCR1 = 2277;
-                         delay (2000);
+                         //delay (2000);
                          TACCR1 = 0;
                          break;
                          }
                      case 10:{
                          TACCR1 = 2500;
-                         delay (2000);
+                         //delay (2000);
                          TACCR1 = 0;
                          break;
                          }

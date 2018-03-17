@@ -14,7 +14,8 @@
 #include "spi2553.h"
 #include "drivermoteur.h"
 #include "scan.h"
-
+#include "ADC.h"
+#include "capteurInfrarouge.h"
 
 volatile int unsigned indexrxbufferuart=0;//buffer rx uart
 volatile char rxtrameuart[TAILLETRAMEUART];//trame rx recu

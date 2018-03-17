@@ -12,3 +12,4 @@ TO DO LIST:
 - ajouter le support de l'accéléromètre
 - gerer les nak et ack
 - gerer les chaine de caractères dans slot()
+- pb de fonctions dans les fonctions d'interruptions
