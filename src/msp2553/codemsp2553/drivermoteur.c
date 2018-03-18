@@ -107,13 +107,19 @@ void droiteauto(int pas){
         TA1CCR1 =100;  //demarrage moteur A
         TA1CCR2 =0;   //demarrage moteur B
     }
+    __delay_cycles(100);
     stop();
     valdroite=0;
+    pas=0;
     __disable_interrupt();
 }
 /*
- * 50->90°
- * 90->180°
+ *
+ *
+ * 13->90
+ * 25->180
+ * 50->360°
+ *
  */
 void gaucheauto(int pas){
     __enable_interrupt();
@@ -121,8 +127,10 @@ void gaucheauto(int pas){
         TA1CCR1 =0;  //demarrage moteur A
         TA1CCR2 =100;   //demarrage moteur B
     }
+    __delay_cycles(100);
     stop();
     valgauche=0;
+    pas=0;
     __disable_interrupt();
 }
 //interruption odomètre

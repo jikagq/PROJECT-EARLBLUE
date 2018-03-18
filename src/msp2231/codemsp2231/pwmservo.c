@@ -25,56 +25,56 @@ void  position(int r){//selection position du servomoteur
     int rotation=0;
    rotation = slot(1,&spirxtrame);//recupération de la 1er valeur dans la trame spi reçu
 
-    /*     1:0
-         * 2:22.5
-         * 3:45
-         * 4:67.5
-         * 5:90
-         * 6:112.5
-         * 7:135
-         * 8:157.5
-         * 9:180
+    /*     0:0
+         * 1:22.5
+         * 2:45
+         * 3:67.5
+         * 4:90
+         * 5:112.5
+         * 6:135
+         * 7:157.5
+         * 8:180
          */
 
     switch(rotation){//9 positions du servo
-                    case 1:{
+                    case 0:{
                         TACCR1 = 500;
                         break;
                            }
 
-                    case 2:{
+                    case 1:{
                         TACCR1 = 750;
                         break;
                            }
-                    case 3:{
+                    case 2:{
                         TACCR1 = 1000;
                         break;
                          }
 
-                     case 4:{
+                     case 3:{
                          TACCR1 = 1250;
                          break;
                          }
-                     case 5:{
+                     case 4:{
                          TACCR1 = 1500;
                          break;
                          }
 
-                     case 6:{
+                     case 5:{
                          TACCR1 = 1750 ;
                          break;
                          }
 
-                     case 7:{
+                     case 6:{
                          TACCR1 = 2000;
                          break;
                          }
 
-                     case 8:{
+                     case 7:{
                          TACCR1 = 2250 ;
                          break;
                          }
-                     case 9:{
+                     case 8:{
                          TACCR1 = 2500;
                          break;
                          }

@@ -9,7 +9,8 @@
 #define SCAN_H_
 
 extern int scanner(void);
-
+int positionservo(int pos);
+void deplacementautonome(void);
 
 
 #endif /* SCAN_H_ */

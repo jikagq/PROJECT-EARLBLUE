@@ -87,6 +87,10 @@ do{
         moniteur();
         break;//quiter
         }
+  case '!':{
+
+        break;
+        }
   case 'y':{
         ledspi();
         break;//quiter

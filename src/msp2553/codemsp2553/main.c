@@ -87,22 +87,20 @@ void iniboard(void){
 void main(void)
 {
     iniboard();
-    int rotation;
-
-
-
-
     InitUART();
     Init_SPI();
-    //testmoteur();
+ //   testmoteur();
     initmoteur();
     ADC_init();
     initInfrarouge();
+    iniservo();
 
-
-
-
-
+   // positionservo(4);
+    //droiteauto(13);
+    //gaucheauto(25);
+    //avancer();
+    //delay(5000);
+    //stop();
     __bis_SR_register(GIE); // interrupts enabled
 
     P1DIR |= BIT0;                  // configure P1.0 as output
@@ -123,8 +121,8 @@ void main(void)
        // int donnetest[] ={9};
         //sendspichar('f');
         //forge(2,'l',&donnetest,&trametx_SPI);//forgage de la trame spi à transmettre
-       // forge(1,'s',&donnetest,&trametx_SPI);//forgage de la trame spi à transmettre
-        //send_SPI(&trametx_SPI);//envoi de la trame spi
+      // forge(1,'s',&donnetest,&trametx_SPI);//forgage de la trame spi à transmettre
+      // send_SPI(&trametx_SPI);//envoi de la trame spi
 
 
       /**  sendspichar('f');
@@ -136,70 +134,12 @@ void main(void)
 
 
 //////////////////////pas testé ni fini
-       /** if(mode==1){//mode auto
-        //lance les fonctions de detections d obstables
-            avancer();
-            if(obstacle() == 1)//obstacle ? appel fonction detection obstavle renvoi 1 si y en a un
-            {
-                stop();
-                rotation = scanner();//scan de l env
+       if(mode==1){//mode auto
+           deplacementautonome();//lance les fonctions de detections d obstables
 
-                switch(rotation){//valeurs à modifier
-                case 1:{
-                    gaucheauto(50);
-                    break;
-                       }
-
-                case 2:{
-                    gaucheauto(50);
-                    break;
-                       }
-                case 3:{
-                    gaucheauto(50);
-                    break;
-                     }
-
-                 case 4:{
-                     gaucheauto(50);
-                     break;
-                     }
-                 case 5:{
-                     avancer();
-                     break;
-                     }
-
-                 case 6:{
-                     droiteauto(50);
-                     break;
-                     }
-
-                 case 7:{
-                     droiteauto(50);
-                     break;
-                     }
-
-                 case 8:{
-                     droiteauto(50);
-                     break;
-                     }
-                 case 9:{
-                     droiteauto(50);
-                     break;
-                     }
-                 case 10:{
-                     droiteauto(50);
-                     break;
-                     }
-                 default :{
-                     stop();
-                     break;
-                     }
-                }
-                avancer();
-            }
-        }else{
-            avancer();
-        }**/
+       }else{
+           //rien attente des ordres venant de luart
+       }
         //////////////////////
     }
 }
