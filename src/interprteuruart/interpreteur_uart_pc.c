@@ -111,7 +111,7 @@ void changemode(void){//pas tester
 
     printf("-> ");
     for(i=0;i<6;i++){
-        printf("%c%d\n",trametx[i],i);
+        printf("%c",trametx[i]);
     }
     printf("\n");
     while ((mode = getchar()) != '\n' && mode != EOF);

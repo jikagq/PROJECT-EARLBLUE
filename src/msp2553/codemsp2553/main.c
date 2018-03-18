@@ -76,8 +76,9 @@ void iniboard(void){
         else
         {
             // Factory parameters
+            DCOCTL = 0;
             BCSCTL1 = CALBC1_1MHZ;
-            DCOCTL = CALDCO_1MHZ;
+            DCOCTL = (0 | CALDCO_1MHZ);
         }
 }
 
@@ -85,7 +86,7 @@ void iniboard(void){
 
 void main(void)
 {
-    void iniboard(void);
+    iniboard();
     int rotation;
 
 
@@ -99,7 +100,7 @@ void main(void)
     initInfrarouge();
 
 
-    int donnetest[] ={1,200};
+
 
 
     __bis_SR_register(GIE); // interrupts enabled
@@ -118,14 +119,24 @@ void main(void)
            P1OUT &= ~BIT0;
         }
 
-        forge(2,'l',&donnetest,&trametx_SPI);//forgage de la trame spi à transmettre
-        send_SPI(&trametx_SPI);//envoi de la trame spi
-        delay(1000);
+        //int donnetest[] ={1,200};
+       // int donnetest[] ={9};
+        //sendspichar('f');
+        //forge(2,'l',&donnetest,&trametx_SPI);//forgage de la trame spi à transmettre
+       // forge(1,'s',&donnetest,&trametx_SPI);//forgage de la trame spi à transmettre
+        //send_SPI(&trametx_SPI);//envoi de la trame spi
 
+
+      /**  sendspichar('f');
+        __delay_cycles(100);
+       sendspichar('1');
+        __delay_cycles(100);
+       sendspichar('\0');
+       delay(1000);**/
 
 
 //////////////////////pas testé ni fini
-        if(mode==1){//mode auto
+       /** if(mode==1){//mode auto
         //lance les fonctions de detections d obstables
             avancer();
             if(obstacle() == 1)//obstacle ? appel fonction detection obstavle renvoi 1 si y en a un
@@ -188,7 +199,7 @@ void main(void)
             }
         }else{
             avancer();
-        }
+        }**/
         //////////////////////
     }
 }

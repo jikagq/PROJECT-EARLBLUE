@@ -64,11 +64,12 @@ void send_SPI (char* trame_SPI)//envoi du tableau
     i++;
     sendspichar(trame_SPI[i]);//dernier char
 
-    raztramespi();
+   // raztramespi();
 }
 
 void sendspichar(char c){//envoi d'1 seul char
     P1OUT &= ~BIT4;//selection de l'esclave cs low
+    while ((UCB0STAT & UCBUSY));   // attend que USCI_SPI soit dispo.
     while (!(IFG2 & UCB0TXIFG));
     UCB0TXBUF = c;
     __delay_cycles(20);

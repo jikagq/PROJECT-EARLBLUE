@@ -93,12 +93,13 @@ void transmit(char c){
 void sendtrameuart(char *trametx){
     int i=0;
     while(trametx[i] != '\0'){
-            //printf(" %c:%d",trametx[i],i);
+        //printf(" %x:%d",trametx[i],i);
         transmit(trametx[i]);
         i++;
     }
-    //printf(" %c:%d",trametx[i],i);
-    transmit(trametx[i+1]);
+    //i++;
+    //printf(" %x:%d",trametx[i],i);
+    transmit(trametx[i]);
     raztrame();
 }
 void port(void){
@@ -112,7 +113,7 @@ void port(void){
     NumPort=port;
 }
 void inicom(void){
-    NumPort=2;                     //a adapter
+    NumPort=9;                     //a adapter
 	//-----------ouverture------------------
 	sprintf(NomPort, "\\\\.\\COM%d", NumPort);
 	hCom=CreateFile(NomPort, GENERIC_READ | GENERIC_WRITE, 0, NULL, OPEN_EXISTING, 0, NULL);
