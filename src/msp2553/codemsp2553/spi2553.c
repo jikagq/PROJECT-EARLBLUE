@@ -25,6 +25,7 @@ volatile char trametx_SPI[TAILLETRAMESPI];//trame spi à envoyer
 
 void Init_SPI (void)
 {
+    __delay_cycles(10000);
 
 	  P1DIR |= BIT4;//bit 5 sortie
 	  P1OUT |= BIT4;//spi slave cs=1

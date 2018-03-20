@@ -88,7 +88,7 @@ do{
         break;//quiter
         }
   case '!':{
-
+        modemanuel();
         break;
         }
   case 'y':{

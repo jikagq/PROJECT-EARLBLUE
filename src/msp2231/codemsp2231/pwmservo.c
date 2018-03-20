@@ -102,6 +102,6 @@ void initpwmservo(void) {
         TACCTL1 |= OUTMOD_7; // activation mode de sortie 7 (PWM)
 
         TACCR0 = 20000;
-        TACCR1 = 500;
+        TACCR1 = 1500;
         TACTL |= MC_1; //demarre le PWM
 }

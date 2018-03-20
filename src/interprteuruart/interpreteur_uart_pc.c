@@ -116,3 +116,62 @@ void changemode(void){//pas tester
     printf("\n");
     while ((mode = getchar()) != '\n' && mode != EOF);
 }
+void modemanuel(void){
+    char c=' ';
+    char deplacement[4];
+
+    deplacement[0]='f';
+    deplacement[1]='1';
+    deplacement[2]='s';
+    deplacement[3]='\0';
+    printf("commandes manuel z,s,q,d,a,*\n");
+
+
+    while(c != '*'){
+        c=getchar();
+        switch(c){
+            case 'z':{//avance
+            deplacement[2]='a';
+            printf("-> %s\n",deplacement);
+            sendtrameuart(&deplacement);
+            break;
+            }
+            case 's':{//recule
+            deplacement[2]='r';
+            printf("-> %s\n",deplacement);
+            sendtrameuart(&deplacement);
+            break;
+            }
+            case 'q':{//gauche
+            deplacement[2]='g';
+            printf("-> %s\n",deplacement);
+            sendtrameuart(&deplacement);
+            break;
+            }
+            case 'd':{//droite
+            deplacement[2]='d';
+            printf("-> %s\n",deplacement);
+            sendtrameuart(&deplacement);
+            break;
+            }
+            case 'a':{//arret
+            deplacement[2]='s';
+            printf("-> %s\n",deplacement);
+            sendtrameuart(&deplacement);
+            break;
+            }
+            default :{
+            //deplacement[2]='s';
+            //sendtrameuart(&deplacement);
+            //printf("rien");
+            break;
+            }
+        }
+        while (getchar() != '\n');
+
+
+
+
+    }
+
+}

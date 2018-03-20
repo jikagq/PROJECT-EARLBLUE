@@ -6,3 +6,4 @@ void forgemanuel(char *trametx);
 void frequence(void);
 void led(void);
 void changemode(void);
+void modemanuel(void);

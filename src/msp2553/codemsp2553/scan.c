@@ -28,7 +28,7 @@
 ///////////pas testé
 
 void iniservo(void){
-    positionservo(4);//position 90°
+    //positionservo(4);//position 90°
     delay(1000);//attente position du servo
 }
 

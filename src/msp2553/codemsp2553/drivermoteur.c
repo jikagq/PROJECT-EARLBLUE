@@ -82,7 +82,10 @@ void gauche(void){
     TA1CCR2 =100;   //demarrage moteur B
 }
 void stop(void){
-    TA1CCR1 =0;  //demarrage moteur A
+
+    while(((P2IN & BIT3)==1) && ((P2IN & BIT0)==1));
+
+    TA1CCR1 =0;
     TA1CCR2 =0;
 }
 void testmoteur(void){
