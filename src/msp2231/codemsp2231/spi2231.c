@@ -34,6 +34,7 @@ __interrupt void universal_serial_interface(void)//interruption spi rx
         }
      USISRL = P1IN;// ?
      USICNT = 8;//raz compteur caractèrre
+     //USISRL = 0x06; //retour ack
 }
 
 
@@ -41,15 +42,6 @@ void anvilspi(void){//interpreteur des trames forge
     char action;
 
     action=spirxtrame[2];//le 3eme char correspond à l'action à effectuer
-
-
-    /**char a;
-
-    a=spirxtrame[0];
-    a=spirxtrame[1];
-    a=spirxtrame[2];
-    a=spirxtrame[3];
-    a=spirxtrame[4];**/
 
     switch(action){
           case 'l':{
@@ -104,8 +96,8 @@ void initSPI(void){
     USISRL = P1IN;                        // init-load data p409
     USICNT = 8;                           // init-load counter nb de bit p408
 
-    //_BIS_SR(LPM0_bits + GIE);             // Enter LPM0 w/ interrupt
-    _BIS_SR( GIE);             //lpm0_bits bloquait le programme ?
+    _BIS_SR(LPM0_bits + GIE);             // Enter LPM0 w/ interrupt
+   // _BIS_SR( GIE);             //lpm0_bits bloquait le programme ?
 }
 
 void raztramespi(void){//raz trame spi

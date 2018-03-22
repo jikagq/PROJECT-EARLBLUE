@@ -105,8 +105,6 @@ void raztramespi(void){//raz de la trame uart
 
 
 
-
-
 /**int forgespi(int nbvaleur,char type, int *dataint, char *trametx){//permet de creer une trame a envoyer en spi
     int i=0;
     int cpt=0;

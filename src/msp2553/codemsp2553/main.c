@@ -117,6 +117,13 @@ void main(void)
            P1OUT &= ~BIT0;
         }
 
+
+        if(flagtrameuart==1){//analyse trame uart
+            anviluart();
+        }
+
+
+
         //int donnetest[] ={1,200};
        // int donnetest[] ={9};
         //sendspichar('f');

@@ -19,6 +19,7 @@
 
 volatile int unsigned indexrxbufferuart=0;//buffer rx uart
 volatile char rxtrameuart[TAILLETRAMEUART];//trame rx recu
+volatile int flagtrameuart=0;
 
 #pragma vector=USCIAB0RX_VECTOR//reception d'une trame uart
 __interrupt void USCI0RX_ISR(void)//interruption permettant de recevoir un cararctere et de l'ajpouter au buffer
@@ -28,15 +29,31 @@ __interrupt void USCI0RX_ISR(void)//interruption permettant de recevoir un carar
     if(c == '\0'){//fin de la trame
         rxtrameuart[indexrxbufferuart]=c;//dernier char
         if(rxtrameuart[0]=='f'){//trame forge -> parser
-            anviluart();//nouveau system avec forge
+            flagtrameuart=1;
+            //anviluart();//nouveau system avec forge
         }else{
-            interpreteuruart();//ancien system
+            flagtrameuart=1;//ne fonctionne plus
+            //interpreteuruart();//ancien system
         }
     }else{//sinon on ajoute le caractaire Ã  la chaine
        rxtrameuart[indexrxbufferuart]=c;//tant que c'est pas la fin ajout au tableau
        indexrxbufferuart++;//deplacement du curseur
+       flagtrameuart=0;
     }
-//manque une secu
+
+
+
+
+    //manque une secu
+
+  /*spi: mais ça devrait pas etre la*/
+  /*  if (IFG2 & UCB0RXIFG)
+    {
+        while( (UCB0STAT & UCBUSY) && !(UCB0STAT & UCOE) );
+        while(!(IFG2 & UCB0RXIFG));
+        c = UCB0RXBUF;
+
+    }*/
 }
 void interpreteuruart(void){//analyse des commandes venant de codeblock en mode interpreteur (old)
    char rxcar;
@@ -137,6 +154,7 @@ void raztrameuart(void){//raz de la trame uart
         rxtrameuart[index]=" ";
     }
     indexrxbufferuart=0;
+    flagtrameuart=0;
 }
 void InitUART(void)//initialisation de la com uart
 {

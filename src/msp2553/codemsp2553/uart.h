@@ -17,6 +17,7 @@
 
 extern volatile int unsigned indexrxbufferuart;
 extern volatile char rxtrameuart[TAILLETRAMEUART];
+extern volatile int flagtrameuart;
 
 
 //extern int slotuart(int slotnumber);
